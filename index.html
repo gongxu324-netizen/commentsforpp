@@ -3,606 +3,385 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PP Krit × GUCCI — Milan Fashion Week Compliment Generator</title>
+<title>PP Krit × GUCCI — Anti-Bot Multi-Style Engine</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   body {
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background: linear-gradient(135deg, #1b1b1b 0%, #4a3728 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(145deg, #121513 0%, #1c231f 50%, #111312 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 40px 16px;
+    padding: 24px 16px;
+    color: #e0e0e0;
   }
-  .container { width: 100%; max-width: 560px; }
-  h1 { color: #e8c87e; text-align: center; font-size: 19px; margin-bottom: 6px; }
-  .subtitle { color: rgba(255,255,255,.7); text-align: center; font-size: 12px; margin-bottom: 20px; }
-  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .container {
+    width: 100%;
+    max-width: 560px;
+  }
+  h1 {
+    color: #dfc892;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .subtitle {
+    color: rgba(255, 255, 255, 0.55);
+    text-align: center;
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+  .combo-badge {
+    text-align: center;
+    font-size: 11px;
+    color: #dfc892;
+    background: rgba(223, 200, 146, 0.1);
+    border: 1px dashed rgba(223, 200, 146, 0.3);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
   .tab {
-    flex: 1 1 42%; padding: 7px 8px; text-align: center; border-radius: 10px;
-    background: rgba(255,255,255,.12); color: rgba(255,255,255,.75);
-    font-size: 13px; font-weight: 600; cursor: pointer;
-    transition: background .2s, color .2s; border: 1px solid transparent;
+    padding: 10px 6px;
+    text-align: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 11.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
   }
-  .tab.active { background: rgba(232,200,126,.18); color: #e8c87e; border-color: rgba(232,200,126,.5); }
-  .tab .hash { display: block; font-size: 9px; font-weight: 400; opacity: .7; margin-top: 1px; }
-  .stats { color: rgba(232,200,126,.8); text-align: center; font-size: 11px; margin-bottom: 12px; }
+  .tab:hover {
+    background: rgba(255, 255, 255, 0.09);
+  }
+  .tab.active {
+    background: rgba(223, 200, 146, 0.12);
+    color: #dfc892;
+    border-color: rgba(223, 200, 146, 0.4);
+    font-weight: 600;
+  }
+
   .btn {
-    display: block; width: 100%; padding: 9px;
-    background: #e8c87e; color: #1b1b1b; font-size: 14px; font-weight: 600;
-    border: none; border-radius: 10px; cursor: pointer;
-    transition: transform .15s, box-shadow .15s; margin-bottom: 14px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #dfc892;
+    color: #121513;
+    font-size: 12.5px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
   }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.3); }
+  .btn:hover {
+    background: #ebd8ab;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  
   .card {
-    background: rgba(255,255,255,.95); border-radius: 14px;
-    padding: 18px 20px; margin-bottom: 14px; cursor: pointer;
-    transition: transform .15s, background .2s; position: relative;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
   }
-  .card:hover { transform: scale(1.02); background: #fff; }
-  .card .index { font-size: 12px; color: #999; margin-bottom: 4px; }
+  .card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(223, 200, 146, 0.3);
+  }
+  .card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .card .index {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+  .card-tags {
+    display: flex;
+    gap: 4px;
+  }
   .card .tag {
-    display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 8px;
-    margin-left: 6px; vertical-align: 1px;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
   }
-  .tag.short { background: #e3f2fd; color: #1565c0; }
-  .tag.medium { background: #fff3e0; color: #e65100; }
-  .tag.long { background: #f3e5f5; color: #6a1b9a; }
-  .card .text { font-size: 16px; color: #333; line-height: 1.6; word-break: break-word; margin-top: 4px; white-space: pre-line; }
-  .card .text b { color: #8a6d3b; }
+  .tag.style-slang { background: rgba(255, 112, 67, 0.15); color: #ff7043; }
+  .tag.style-formal { background: rgba(149, 117, 205, 0.15); color: #9575cd; }
+  .tag.style-hype { background: rgba(100, 181, 246, 0.15); color: #64b5f6; }
+
+  .card .text {
+    font-size: 12.5px;
+    color: #e2e2e2;
+    line-height: 1.5;
+    word-break: break-word;
+    white-space: pre-line;
+  }
+  .card .text b {
+    color: #dfc892;
+    font-weight: 600;
+  }
   .card .tip {
-    position: absolute; right: 14px; top: 14px;
-    font-size: 12px; color: #8a6d3b; opacity: 0; transition: opacity .2s;
+    font-size: 10px;
+    color: #dfc892;
+    opacity: 0;
+    transition: opacity 0.2s;
   }
-  .card.copied { background: #e8f5e9; }
-  .card.copied .tip { opacity: 1; }
+  .card.copied {
+    background: rgba(76, 175, 80, 0.12);
+    border-color: rgba(76, 175, 80, 0.4);
+  }
+  .card.copied .tip {
+    opacity: 1;
+  }
+
   .toast {
-    position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: #323232; color: #fff; padding: 10px 22px; border-radius: 20px;
-    font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #dfc892;
+    color: #121513;
+    padding: 8px 18px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 </style>
-<base target="_blank">
 </head>
 <body>
 <div class="container">
-  <h1>✨ PP Krit × GUCCI — Milan Fashion Week ✨</h1>
-  <p class="subtitle">Every line contains PP Krit & GUCCI variants — tap a card to copy.<br>IG-related modules are now on the left (default view). Emojis may appear mid-sentence or at the end — never at the start.</p>
+  <h1>✨ PP Krit × GUCCI — Anti-Bot Engine ✨</h1>
+  <p class="subtitle">Multi-Tone & Natural Style Alternating Generator</p>
+  <div class="combo-badge">🔥 2M+ Anti-Spam Combinations</div>
+  
   <div class="tabs">
-    <div class="tab active" id="tabDepartIG" data-mode="departIg">🛫 depart✈/IG<span class="hash">Milan-bound anticipation</span></div>
-    <div class="tab" id="tabIG" data-mode="ig">📸 IG / TT<span class="hash">original format</span></div>
-    <div class="tab" id="tabDepartX" data-mode="departX">🛫 depart✈/X<span class="hash">+ PP KRIT X GUCCI MFW26 tags</span></div>
-    <div class="tab" id="tabX" data-mode="x">𝕏 X<span class="hash">+ PP KRIT X GUCCI MFW26 tags</span></div>
+    <div class="tab active" id="tab1" data-mode="pre-ig">beforetheshow(IG/TT)</div>
+    <div class="tab" id="tab2" data-mode="pre-x">beforetheshow(X)</div>
+    <div class="tab" id="tab3" data-mode="on-ig">ontheshow(IG/TT)</div>
+    <div class="tab" id="tab4" data-mode="on-x">ontheshow(X)</div>
   </div>
-  <p class="stats" id="stats"></p>
-  <button class="btn" id="refreshBtn">🎲 Refresh</button>
+
+  <button class="btn" id="refreshBtn">🎲 Generate New Batch (8 Unique Items)</button>
   <div id="list"></div>
 </div>
-<div class="toast" id="toast">Copied ✓</div>
+
+<div class="toast" id="toast">Copied to Clipboard ✓</div>
 
 <script>
-// ===== Text pools (short one-liners / medium paragraphs / fragments for long form) =====
-const DATA = {
-  SHORT: [
-    "{name} x {brand} — pure excellence.",
-    "Nobody commands {brand} quite like {name}.",
-    "{name} in {brand} is a visual triumph.",
-    "Milan belongs to {name} and {brand}.",
-    "The absolute embodiment of {brand}: {name}.",
-    "{name} owned every single camera in {brand}.",
-    "This {brand} look on {name} is sheer perfection.",
-    "Effortless. Elegant. Unrivaled. — {name} in {brand}.",
-    "Seeing {name} styled in {brand} is everything.",
-    "One word: legendary. {name} x {brand}.",
-    "{brand} Milan's absolute highlight: {name}.",
-    "{name} and {brand} — a timeless pairing.",
-    "Completely mesmerized by {name} in {brand}.",
-    "The fit, the attitude, the presence — {name} in {brand}.",
-    "{name} effortlessly stole {brand}'s Milan spotlight.",
-    "{brand} x {name} is high fashion at its finest.",
-    "{name} in {brand} looks straight out of a dream.",
-    "{name}'s poise in {brand} is unmatched.",
-    "The way {name} breathes life into {brand} should be studied.",
-    "{brand} Milan's true highlight: {name}, without a doubt.",
-    "{name} + {brand} + Milan = absolute perfection.",
-    "Elegance defined: {name} in {brand} Milan.",
-    "{name} in {brand} is the only topic that matters in Milan.",
-    "Watching {name} elevate {brand} never gets old.",
-    "{name} defines the moment at {brand} Milan.",
-    "{name} at {brand} Milan: flawless execution.",
-    "Pure class — {name} in the {brand} front row.",
-    "{name} makes {brand} look even more extraordinary.",
-    "{name} doesn't just wear {brand} — he commands it.",
-    "Every look from {name} in {brand} is pure art.",
-    "{name}'s expressiveness in {brand} is truly on another level.",
-    "No one delivers {brand}'s vision like {name}.",
-    "{name} in {brand}: captivating through every lens.",
-    "Milan's front-row icon: {name}, dressed in {brand}.",
-    "Simply breathtaking — {name} x {brand}."
-  ],
-  MEDIUM: [
-    "{name} at {brand} Milan — pure grace and poise in motion.",
-    "{name} stepped into {brand}'s Milan show and captivated everyone.",
-    "{name} in {brand}: every single frame is a masterpiece.",
-    "The front row agrees — {name} in {brand} is on another tier.",
-    "{name} wore {brand} in Milan like it was made specifically for him.",
-    "Milan's most memorable fashion highlight: {name} x {brand}.",
-    "{name}'s aura and {brand}'s legacy — a match made in fashion history.",
-    "Nobody interprets {brand} quite like {name}. Period.",
-    "{name} in {brand} at Milan: absolute perfection in every detail.",
-    "Watching {name} in {brand} feels like seeing a live high-fashion editorial.",
-    "{name} doesn't merely wear {brand} — he performs it with emotion.",
-    "Understated luxury: {name} taking his seat at the {brand} Milan front row.",
-    "{name} turned {brand}'s Milan show into his personal showcase.",
-    "Every glance from {name} in {brand} carried magnetic presence.",
-    "{name} brought out the absolute finest details of {brand}.",
-    "Milan held its breath the moment {name} appeared in {brand}.",
-    "{name}'s expressiveness in {brand} is unmatched — high fashion at its peak.",
-    "He doesn't just pose; he conveys a story — {name} in {brand}.",
-    "{name} and {brand}: an authentic synergy you simply cannot fake.",
-    "Front row perfection — {name} in {brand} captured every eye.",
-    "{name} carried {brand} with quiet, sophisticated power.",
-    "The flashbulbs didn't stop for a second on {name} in {brand}.",
-    "{name}'s {brand} ensemble: impeccable taste, restraint, and timing.",
-    "As {brand}'s global ambassador, {name} spoke volumes without saying a word.",
-    "{name} arrived in {brand}, and Milan instantly took notice.",
-    "Some follow fashion trends; {name} elevates them in {brand}.",
-    "Sophistication has a face: {name} at {brand} Milan.",
-    "{name} in {brand} — undeniably the moment of Milan Fashion Week.",
-    "Every single detail of {name}'s {brand} look exuded pure refinement.",
-    "{name} x {brand} in Milan proves why true style stands out."
-  ],
-  OPENERS: [
-    "Everyone in the fashion world is talking about it",
-    "Let the record show",
-    "If refined elegance needed a definition",
-    "Fashion editors and critics take note",
-    "In a week packed with high fashion moments",
-    "Honestly, it needs to be emphasized",
-    "No matter how many runway shows you attend",
-    "When the lights dimmed for the Milan showcase",
-    "Some fashion moments disappear quickly, but not this one",
-    "Call it undeniable charisma, call it perfection",
-    "The front row recognized it immediately",
-    "Style archives will reference this moment",
-    "Amidst the flashing cameras and applause",
-    "If Milan crowned a highlight this season",
-    "Rarely does high fashion feel this effortless",
-    "Beyond all the headlines and coverage",
-    "For anyone watching the international fashion scene",
-    "There is a clear difference between wearing clothes and telling a story",
-    "Long after the show, the impact remains undeniable",
-    "The exact definition of an ideal brand partnership"
-  ],
-  CORES: [
-    "{name}'s appearance at {brand}'s Milan show proved he operates on a higher level",
-    "{name} delivered a masterclass in poise and presence at the {brand} Milan show",
-    "the way {name}, as {brand}'s ambassador, embodied the house's vision felt completely natural",
-    "{name} at {brand} Milan demonstrated exactly what a modern muse looks like",
-    "every frame of {name} in {brand} at Milan belongs in a fine art publication",
-    "{name}'s {brand} appearance in Milan was a study in confident elegance",
-    "the synergy between {name} and {brand} in Milan was simply unmatched",
-    "{name} didn't just attend {brand}'s Milan show — he completely elevated it",
-    "{name} wore {brand} in Milan as if the collection was tailored exclusively for him",
-    "the refinement {name} brought to {brand}'s Milan show was truly world-class",
-    "{name}'s sharp fashion instincts were on full display at {brand} Milan",
-    "{name} made {brand}'s Milan front row feel like his personal runway",
-    "{name}'s look at {brand} Milan balanced heritage and modern edge seamlessly",
-    "the poise {name} displayed in {brand} at Milan is what high style is all about",
-    "{name} turned {brand}'s Milan showcase into a landmark moment",
-    "the way {name} carries {brand} reflects a rare, sophisticated fashion literacy",
-    "{name}'s Milan appearance in {brand} received unanimous praise across the industry",
-    "{name} and {brand} together in Milan felt less like a routine appearance and more like a legacy",
-    "the precision of {name}'s styling at {brand} Milan impressed even the strictest critics",
-    "{name} gave {brand}'s Milan show its most memorable front-row moment",
-    "the quiet confidence {name} brought to {brand} in Milan was simply magnetic",
-    "{name}'s command of {brand}'s aesthetic in Milan showed remarkable fashion fluency",
-    "dressed in {brand} at Milan, {name} looked every bit the global fashion authority",
-    "{name}'s presence at {brand} Milan reminded everyone why he is so widely admired",
-    "the silhouette, the attitude, the aura — {name} hit every note of {brand} in Milan",
-    "{name} interpreted {brand}'s vision in Milan with incredible grace",
-    "the composure {name} displayed in {brand} at Milan was pure high fashion energy",
-    "{name}'s Milan moment in {brand} will be referenced for seasons to come",
-    "what {name} brought to {brand}'s Milan front row was equal parts charm and couture",
-    "{name} proved once again in Milan why he and {brand} are a matchless pair",
-    "the industry consensus was instant: {name} in {brand} at Milan was elite",
-    "{name}'s {brand} look in Milan showed flawless taste, restraint, and timing",
-    "from his arrival to the exit, {name} owned {brand}'s Milan narrative",
-    "{name} made {brand}'s Milan showing feel personal, artistic, and powerful",
-    "the fashion press agreed — {name}'s {brand} moment in Milan was front-page material",
-    "{name}, sitting front row for {brand} in Milan, proved that true style needs no amplification",
-    "{name} didn't chase the spotlight at {brand} Milan; the spotlight naturally found him",
-    "the harmony between {name}'s presence and {brand}'s identity in Milan was seamless",
-    "{name}'s interpretation of {brand} in Milan was fresh, refined, and distinctly his own",
-    "Milan saw countless figures, but {name} in {brand} was the one everyone remembered",
-    "the subtle power {name} brought to {brand} in Milan defines real fashion authority",
-    "{name}'s Milan appearance in {brand} earned accolades from both critics and audience",
-    "in one single appearance, {name} captured everything {brand} stands for in Milan",
-    "{name}'s innate fashion sensibility shone brightest at {brand}'s Milan showcase",
-    "the {brand} show in Milan had one undisputed center of attention, and it was {name}",
-    "as {brand}'s ambassador, {name} honored the house's heritage while making the look unmistakably his",
-    "{name} carried the distinction of {brand} ambassadorship in Milan with incredible poise",
-    "choosing {name} as ambassador was brilliant — his Milan presence elevated {brand}'s entire week",
-    "{name} proved in Milan why {brand} trusts him as ambassador: taste, grace, and total authenticity",
-    "front row at {brand} Milan, ambassador {name} looked like the house's definitive representative",
-    "{name}'s expressiveness in {brand} requires no direction — Milan's cameras caught a natural performer",
-    "the lens captures {name} effortlessly; in {brand} at Milan, his expression was the main story",
-    "{name} embodies fashion rather than just wearing it — his {brand} expressiveness in Milan was hypnotic",
-    "every gesture from {name} in {brand} carried editorial weight in Milan",
-    "{name} brought striking expressiveness to {brand}'s Milan front row",
-    "the expressiveness {name} lends to {brand} is the house's strongest asset this season",
-    "{name} in {brand} at Milan carried an unmistakably editorial energy",
-    "the proportions {name} chose at {brand} Milan showed remarkable precision",
-    "{name} gave {brand}'s Milan audience a lesson in modern aristocratic style",
-    "Milan's tastemakers agreed — {name} in {brand} was the week's most refined sight",
-    "{name} approached {brand} with the confidence of someone who truly owns the room",
-    "the visual narrative {name} created in {brand} at Milan was remarkably complete",
-    "{name}'s front-row presence in {brand} Milan was measured, deliberate, and stunning",
-    "nobody photographed better that week than {name} in {brand}",
-    "{name} made {brand}'s Milan codes feel personal, current, and completely his own",
-    "the grace {name} displayed in {brand} turned a routine appearance into an event",
-    "{name} in {brand} at Milan exemplified what fashion insiders call quiet luxury",
-    "the conversation after the show kept returning to one name: {name} in {brand}",
-    "{name}'s styling choices at {brand} Milan were bold yet impeccably measured",
-    "there was a stillness and certainty to {name} in {brand} that commanded respect"
-  ],
-  CLOSERS: [
-    "and the fashion world took note.",
-    "— this is what true icon status looks like.",
-    "and Milan was completely captivated.",
-    "proof that genuine style cannot be manufactured.",
-    "a landmark moment that belongs in fashion history.",
-    "the kind of sophistication that needs no explanation.",
-    "and honestly, the impact is still felt everywhere.",
-    "that is not merely clothing — that is living art.",
-    "and the entire front row felt his presence.",
-    "a statement written clearly across every headline.",
-    "and the industry responded with unanimous praise.",
-    "this is exactly why {brand} and {name} belong together."
-  ]
+const DB = {
+  // Strictly locked name
+  NAME: "PP Krit",
+  BRAND_IG: ["GUCCI", "Gucci"],
+  BRAND_X: ["GUCCI", "Gucci", "@gucci"],
+  MFW_VARIANTS: ["MFW", "Milan Fashion Week", "MFW26"],
+
+  // Style 1: Gen-Z Slang
+  SLANG: {
+    starters: ["nah fr", "bro,", "wait wait wait,", "literally crying,", "lowkey obsessed with how", "no because why is", "screaming because"],
+    verbs: ["looks insanely good in", "slays so hard in", "is totally rocking", "pulled up in full"],
+    phrases: ["that face card is never declining", "the silhouette and those proportions are crazy", "he looks like a literal runway model", "that waistline and posture is insane"],
+    endings: ["period!", "im obsessed.", "zero notes!", "im crying fr.", "pure perfection."]
+  },
+
+  // Style 2: High-Fashion Elegant
+  FORMAL: {
+    starters: ["Breathtaking appearance from", "A true embodiment of elegance,", "Exuding pure sophistication,", "Sensational high-fashion moment for", "Redefining modern luxury,"],
+    verbs: ["presents flawless tailoring in", "commands the event effortlessly wearing", "showcases remarkable poise in", "embodies timeless glamour with"],
+    phrases: ["with impeccable silhouette and refined aura", "highlighting exquisite facial features and regal stature", "serving ethereal beauty with a commanding presence", "a masterclass in high-fashion aesthetics and charm"],
+    endings: ["at Milan Fashion Week.", "for Gucci.", "an absolute highlight of the show.", "defining true elegance."]
+  },
+
+  // Style 3: Fan Hype
+  HYPE: {
+    starters: ["OMG!!", "Look at him,", "I cannot breathe,", "Absolutely stunning,", "The main character is here,"],
+    verbs: ["is glowing so bright in", "is making everyone take photos in", "is taking over the entire timeline in", "is serving pure perfection in"],
+    phrases: ["such a handsome face and perfect body line", "his aura is literally out of this world", "that heavenly glow and gorgeous smile", "serving top-tier face card and unmatched elegance"],
+    endings: ["so proud of him!", "he killed this look!", "can't take my eyes off!", "we love to see it!"]
+  },
+
+  EMOJIS: ["🖤", "🤍", "💜", "✨", "🔥", "👑", "🌟", "💫", "👏", "🥂"]
 };
 
+const X_TAGS = "#GUCCISS27xPPKRIT\n#GucciTheStoreShow\n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
+const X_LIMIT = 280;
+const PAGE_SIZE = 8;
 
-// ===== Departure module text pools (Milan-bound anticipation) =====
-const DATA_DEPART = {
-  "SHORT": [
-    "{name} is Milan-bound in {brand}.",
-    "Airport styling? {brand}. {name} already set the bar.",
-    "{name} departing for Milan in {brand} — stunning.",
-    "MFW is ready for {name} in {brand}.",
-    "{name} x {brand} x Milan — the countdown begins.",
-    "{name} is heading to Milan with unmatched style.",
-    "{name} understood the assignment before even landing.",
-    "Front row bound — {name} styled in {brand}.",
-    "Even his travel ensemble is {brand} perfection.",
-    "Elegance has boarded the flight — {name} in {brand}.",
-    "The departure hall becomes his runway. {name} x {brand}.",
-    "Milan gains its headline figure: {name} in {brand}.",
-    "From gate to front row — {name} in {brand}.",
-    "Nobody travels like {name}: head-to-toe {brand}.",
-    "The calm before the Milan show — {name} in {brand}.",
-    "Every {name} departure looks like an opening cinematic sequence.",
-    "Milan is in for a treat — {name} in {brand} is en route.",
-    "A seamless pairing: {name} and {brand}.",
-    "His expressiveness in {brand} speaks volumes already.",
-    "Impeccable departure look — {name} in {brand}.",
-    "Heading to Milan in {brand} — pure sophistication.",
-    "True taste never takes a day off — {name} in {brand}.",
-    "If the departure looks this refined… {name} x {brand} will be historic.",
-    "Relaxed, composed, ready — {name} in {brand}.",
-    "The journey suits {name} as if he was born for international fashion.",
-    "Milan, get ready — {name} and {brand} are on the way.",
-    "Departure photos of {name} in {brand} look like campaign preview shots.",
-    "{name}'s travel styling in {brand} is a masterclass.",
-    "Off to Milan in full {brand} — uncompromising quality.",
-    "The expressiveness {name} brings to {brand} is unmatched.",
-    "Milan calls {name} back — look at him in {brand}.",
-    "Boarding in {brand}, landing as Milan's focal point — {name}.",
-    "High style at 30,000 feet — {name} in {brand}.",
-    "Anticipation is building fast — {name} x {brand}.",
-    "Even in transit, {name} remains the main focus."
-  ],
-  "MEDIUM": [
-    "{name} is Milan-bound in {brand} — the excitement is building.",
-    "Departure look: {brand}. Destination: Milan. Highlight: {name}.",
-    "{name} in {brand} at the airport — already front-row ready.",
-    "Even his travel style is pure {brand} perfection. {name} is unmatched.",
-    "The airport turns into {name}'s first runway — {brand} style.",
-    "{name} boarding for Milan in {brand} — elegance takes flight.",
-    "Milan awaits {name} appearing in {brand}.",
-    "{name}'s {brand} departure ensemble deserves its own feature spread.",
-    "From departure gate to front row seat — {name} in {brand}.",
-    "Every departure of {name} in {brand} feels like a fashion film opening.",
-    "{name} travels in {brand} with absolute poise and composure.",
-    "If the airport look is this strong, the {brand} Milan show will be legendary.",
-    "{name} in {brand}, Milan-bound — the main moment is en route.",
-    "Composed, understated, {brand}-clad — {name} is ready for Milan.",
-    "{name} turns travel gates into {brand} fashion moments.",
-    "The anticipation is real: {name} x {brand} x Milan.",
-    "His expressiveness in {brand} captured attention at departure.",
-    "{name} steps onto flights with total poise in {brand}.",
-    "Milan-bound in complete {brand} styling — refined and effortless.",
-    "The journey look alone could close a major showcase — {name} in {brand}.",
-    "{name} makes travel wear in {brand} look like tailored luxury.",
-    "Off to Milan, dressed in {brand} — {name} embodies pure style.",
-    "A single departure shot of {name} in {brand} outshines routine looks.",
-    "{name} in {brand} at the gate: Milan's most refined preview.",
-    "Travel day, executed in {brand} — {name} never misses.",
-    "Milan can begin counting down — {name} in {brand} is coming.",
-    "The expressiveness {name} brings to {brand} needs no stage.",
-    "Elegance in transit — {name} in {brand}, Milan-bound.",
-    "{name} treats every journey in {brand} as a special occasion.",
-    "The preview is already stunning — {name} in {brand}, en route to Milan."
-  ],
-  "OPENERS": [
-    "As departure details emerged",
-    "With {name} officially en route to Milan",
-    "The moment his travel look was captured",
-    "While the international fashion community watches him board",
-    "As excitement for Milan Fashion Week reaches its peak",
-    "From the very first frame at departure",
-    "With every mile closer to Milan",
-    "As he travels toward Milan's world stage",
-    "The anticipation feels distinct this season",
-    "Before the Milan showcase officially opens",
-    "Between departure and arrival in Europe",
-    "As {brand}'s ambassador takes to the skies",
-    "With fashion capitals tuned in",
-    "From the departure hall to Milan",
-    "As his journey to Milan begins",
-    "While Milan prepares for his presence",
-    "The prelude is already making headlines",
-    "As travel becomes an expression of style in his hands",
-    "With his {brand} travel gear ready",
-    "Before a single official flashbulb fires in Milan"
-  ],
-  "CORES": [
-    "{name}'s departure styling in {brand} set the ideal tone for Milan Fashion Week",
-    "the anticipation for {name}'s {brand} appearance in Milan is at an all-time high",
-    "{name} turned a simple airport appearance into a genuine {brand} fashion statement",
-    "{name}'s travel look in {brand} outshone standard runway styling before he even arrived",
-    "{name} navigates departure terminals in {brand} with the ease of an established icon",
-    "the expressiveness {name} brings to {brand}, even in transit, shows true star quality",
-    "{name}'s Milan-bound look in {brand} proved he treats every appearance with total refinement",
-    "watching {name} depart in {brand} feels like viewing the opening chapter of Milan Fashion Week",
-    "{name}'s choices for the Milan trip reflect a deep fluency with {brand}",
-    "{name} doesn't just travel — he sets a high bar for style, especially in {brand}",
-    "the enthusiasm {name} creates simply traveling to Milan in {brand} is impressive",
-    "every departure of {name} in {brand} redefines what high-level travel style can be",
-    "{name}'s presence at the terminal in {brand} signaled that Milan's front row is waiting",
-    "{name} in {brand} en route to Milan looks completely ready for a magazine spread",
-    "the way {name} combines ease and structure in {brand} shows true fashion intellect",
-    "{name}'s departure look in {brand} promises a Milan appearance worth every mile",
-    "{name} treats the trip to Milan as an integral part of his overall presentation in {brand}",
-    "interest around {name}'s {brand} moment in Milan grows stronger with each departure photo",
-    "{name}'s travel styling in {brand} was so well executed it felt curated for an editorial",
-    "{name} makes departing for Milan in {brand} appear entirely natural and graceful",
-    "{name}'s expressiveness in these departure shots could carry a {brand} feature on its own",
-    "{name} and {brand} at departure provided the fashion world with an instant highlight",
-    "his travel wardrobe in {brand} confirms what Milan knows: {name} arrives fully prepared",
-    "every line of {name}'s {brand} departure ensemble reflects quiet sophistication",
-    "{name} handles travel days with the composure of someone who understands great style",
-    "the journey look alone commands attention — {name} in {brand} always hits the mark",
-    "{name}'s styling in {brand} for the trip blends comfort and luxury seamlessly",
-    "{name} in {brand} at the airport serves as the finest preview for Milan Fashion Week",
-    "the intent in {name}'s expression matches the city's anticipation — Milan awaits {brand}",
-    "{name} writes fashion's opening lines in departure lounges dressed in {brand}",
-    "{name}'s expressiveness turns travel into theater, and {brand} is the ideal wardrobe",
-    "{name}'s departure in {brand} carried the polish of a premier fashion presentation",
-    "the way {name} interprets {brand} for travel proves his aesthetic instincts are editorial-grade",
-    "{name} doesn't merely wear {brand} to Milan — he frames his entire journey with it",
-    "every departure look from {name} in {brand} adds depth to his fashion narrative",
-    "the attention {name} draws is measurable — he trends before even landing in Milan for {brand}",
-    "{name}'s {brand} terminal styling was quiet, confident, and completely effective",
-    "{name} in {brand} departing for Milan: effortless style at ground level and in the air",
-    "the fashion community follows {name}'s departures closely — {name} in {brand} always delivers",
-    "{name}'s travel-day {brand} ensemble made one thing clear: his arrival will be remembered",
-    "{name} brings runway energy to airport gates that {brand} must be proud to celebrate",
-    "{name}'s expressiveness in {brand} makes even simple moments look purposeful",
-    "{name}'s departure look in {brand} set a standard that Milan Fashion Week will appreciate",
-    "{name} departs in {brand} with quiet, absolute confidence",
-    "the enthusiasm for {name}'s {brand} arrival in Milan is a major highlight of the week",
-    "{name}'s departure look in {brand} answered every question: he is completely ready",
-    "{name} at the airport in {brand} proves that great style starts well before the runway",
-    "the detail of {name}'s travel choices in {brand} would satisfy the most critical eyes",
-    "{name} brings fluid motion to {brand} — across borders and toward Milan",
-    "{name}'s departure in {brand} was equal parts travel and definitive style statement",
-    "the excitement surrounding {name}'s Milan appearance is elevated by how naturally he wears {brand}",
-    "{name}'s terminal look in {brand} deserves a dedicated feature in Milan lookbooks",
-    "{name} travels in {brand} with a quiet pride that represents the house perfectly",
-    "every departure of {name} adds excitement to the air — {name} in {brand} is pure elegance",
-    "the way {name} styled {brand} for the flight shows why Milan keeps reserving his front-row seat",
-    "{name} in {brand} heading to Europe is the kind of update that officially starts fashion week",
-    "{name}'s expressiveness in transit is remarkable — {brand} on {name} in motion is cinema",
-    "{name}'s departure look in {brand} promised presence, poise, and memorable style",
-    "{name} boards for Milan in {brand} with the calm of someone who knows the fashion world is watching",
-    "{name}'s journey in {brand} is already the season's most stylish commute",
-    "{name}'s expressiveness in {brand} turned the departure terminal into a backdrop",
-    "the cameras documented {name}'s every move — his expressiveness in {brand} was unmissable",
-    "{name} maintains total presence even in transit; his {brand} expressiveness at the airport was headline-worthy",
-    "{name}'s travel styling in {brand} carried the polish of an official campaign shoot",
-    "{name}'s departure look in {brand} already outclassed most front rows he'll pass in Milan",
-    "the ease with which {name} wears {brand} at airports reveals genuine fashion mastery",
-    "{name} and {brand} at departure made the journey itself feel like the opening act",
-    "every departure frame of {name} in {brand} carried the polish of a house campaign",
-    "{name}'s travel-day choices in {brand} were deliberate, elevated, and unmistakably his",
-    "watching {name} depart for Milan in {brand} felt like the first page of a fashion editorial"
-  ],
-  "CLOSERS": [
-    "and Milan hasn't even seen him arrive yet.",
-    "— the main moment is officially en route.",
-    "and the anticipation grows even stronger.",
-    "proof that his fashion journey is the central story.",
-    "and the fashion community is already taking notice.",
-    "Milan can officially prepare for his presence.",
-    "— some travel with basic luggage; he travels with pure style.",
-    "and we haven't even seen the official show yet.",
-    "the journey is the preview, and the preview is flawless.",
-    "and observers are tracking every step of the trip.",
-    "— arrival in Milan will undoubtedly be recorded in style archives.",
-    "this is what anticipation looks like when styled in {brand}."
-  ]
-};
-
-const NAME_VARIANTS = ["PP Krit"];
-const BRAND_VARIANTS = ["GUCCI", "Gucci", "@GUCCI", "GUCCI."];
-const EMOJIS = ["✨", "🔥", "👑", "🤍", "💚❤️", "🖤", "😍", "🥂", "🌟", "💫", "🫶", "👏"];
-const COUNT = 6;
 const list = document.getElementById("list");
 const toast = document.getElementById("toast");
 let toastTimer = null;
+let currentMode = "pre-ig";
 
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
-// Emoji rule: optional (~55% chance), mid-sentence or end-of-sentence only — NEVER at the start.
-function maybeEmoji(t) {
-  if (Math.random() < 0.45) return t;
-  const e = pick(EMOJIS);
-  if (Math.random() < 0.7) return t + " " + e;              // end of sentence
-  const spots = [];
-  for (let i = 12; i < t.length - 6; i++) { if (t[i] === " ") spots.push(i); }
-  if (!spots.length) return t + " " + e;
-  const i = pick(spots);                                     // mid-sentence
-  return t.slice(0, i) + " " + e + " " + t.slice(i + 1);
-}
+function insertEmojiSafely(text) {
+  const count = Math.floor(Math.random() * 5);
+  if (count === 0) return text;
 
-function brandPool() {
-  // IG 类模块（ig / departIg）不出现 @GUCCI，只保留纯关键字变体
-  return (mode === "ig" || mode === "departIg") ? BRAND_VARIANTS.filter(b => b !== "@GUCCI") : BRAND_VARIANTS;
-}
+  let safeText = text
+    .replace(/PP Krit/g, "PP_KRIT_TOKEN")
+    .replace(/@gucci/gi, "AT_GUCCI_TOKEN")
+    .replace(/@ppkritt/gi, "AT_PPKRITT_TOKEN");
 
-function fill(t) {
-  return t.replace(/\{name\}/g, pick(NAME_VARIANTS))
-          .replace(/\{brand\}/g, pick(brandPool()))
-          .replace(/\{emoji\}/g, () => pick(EMOJIS));
-}
+  const tokens = safeText.split(" ");
 
-// ===== Generator: mix of short / medium / long, session-level dedup =====
-const seen = new Set();
-let mode = "departIg"; // default: depart✈/IG module (IG tabs on the left)
-const X_TAGS = "PP KRIT X GUCCI MFW26 \n#GUCCISS27xPPKRIT \n#GucciTheStoreShow \n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
-const DEPART_X_TAGS = "PP KRIT X GUCCI MFW26 \n#GUCCISS27xPPKRIT \n#GucciTheStoreShow \n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
-
-// ===== X-mode generation: fit within X's 280-character limit =====
-const X_LIMIT = 280;
-
-function fitsX(text, tags) {
-  return (text + "\n\n" + tags).length <= X_LIMIT;
-}
-
-function pickXSafe(depart, tags) {
-  const D = depart ? DATA_DEPART : DATA;
-  for (let attempt = 0; attempt < 60; attempt++) {
-    const r = Math.random();
-    let item;
-    if (r < 0.45) item = { tag: "short", text: fill(pick(D.SHORT)) };
-    else if (r < 0.80) item = { tag: "medium", text: fill(pick(D.MEDIUM)) };
-    else {
-      // On X the long opener is dropped to stay within the character limit
-      const sentence = pick(D.CORES) + ", " + pick(D.CLOSERS);
-      const filled = fill(sentence);
-      item = { tag: "long", text: filled.charAt(0).toUpperCase() + filled.slice(1) };
-    }
-    const withEmoji = maybeEmoji(item.text);
-    if (fitsX(withEmoji, tags)) {
-      item.text = withEmoji + "\n\n" + tags;
-      return item;
+  for (let i = 0; i < count; i++) {
+    const e = pick(DB.EMOJIS);
+    if (tokens.length <= 2 || Math.random() < 0.65) {
+      tokens.push(e);
+    } else {
+      const pos = Math.floor(Math.random() * (tokens.length - 1)) + 1;
+      tokens[pos] = tokens[pos] + " " + e;
     }
   }
-  // fallback: a guaranteed-fit short line
-  const pool = D.SHORT.filter(s => fitsX(s, tags));
-  const text = maybeEmoji(fill(pick(pool.length ? pool : D.SHORT)));
-  return { tag: "short", text: text + "\n\n" + tags };
+
+  return tokens.join(" ")
+    .replace(/PP_KRIT_TOKEN/g, "PP Krit")
+    .replace(/AT_GUCCI_TOKEN/g, "@gucci")
+    .replace(/AT_PPKRITT_TOKEN/g, "@ppkritt");
 }
 
-function generateDepart() {
-  if (mode === "departX") return pickXSafe(true, DEPART_X_TAGS);
-  const r = Math.random();
-  let item;
-  if (r < 0.35) item = { tag: "short", text: fill(pick(DATA_DEPART.SHORT)) };
-  else if (r < 0.70) item = { tag: "medium", text: fill(pick(DATA_DEPART.MEDIUM)) };
-  else {
-    const sentence = pick(DATA_DEPART.OPENERS) + ", " +
-                     pick(DATA_DEPART.CORES) + ", " +
-                     pick(DATA_DEPART.CLOSERS);
-    const filled = fill(sentence);
-    item = { tag: "long", text: filled.charAt(0).toUpperCase() + filled.slice(1) };
+function buildGrammarText(isX, styleType) {
+  const brandPool = isX ? DB.BRAND_X : DB.BRAND_IG;
+  const brand = pick(brandPool);
+  const mfw = pick(DB.MFW_VARIANTS);
+  const name = DB.NAME; // Strictly locked to "PP Krit"
+  
+  let styleGroup, styleName;
+  if (styleType === 0) {
+    styleGroup = DB.SLANG; styleName = "Slang";
+  } else if (styleType === 1) {
+    styleGroup = DB.FORMAL; styleName = "Elegant";
+  } else {
+    styleGroup = DB.HYPE; styleName = "Hype";
   }
-  item.text = maybeEmoji(item.text);
-  return item;
-}
 
-function generateOne() {
-  if (mode === "departX") return generateDepart();
-  if (mode === "departIg") return generateDepart();
-  if (mode === "x") return pickXSafe(false, X_TAGS);
-  const r = Math.random();
-  let item;
-  if (r < 0.35) item = { tag: "short", text: fill(pick(DATA.SHORT)) };
-  else if (r < 0.70) item = { tag: "medium", text: fill(pick(DATA.MEDIUM)) };
-  else {
-    const sentence = pick(DATA.OPENERS) + ", " +
-                     pick(DATA.CORES) + ", " +
-                     pick(DATA.CLOSERS);
-    const filled = fill(sentence);
-    item = { tag: "long", text: filled.charAt(0).toUpperCase() + filled.slice(1) };
+  const starter = pick(styleGroup.starters);
+  const verb = pick(styleGroup.verbs);
+  const phrase = pick(styleGroup.phrases);
+  const ending = pick(styleGroup.endings);
+
+  let sentence = "";
+  const structChoice = Math.floor(Math.random() * 3);
+
+  if (structChoice === 0) {
+    sentence = `${starter} ${name} ${verb} ${brand} at ${mfw}, ${phrase} - ${ending}`;
+  } else if (structChoice === 1) {
+    sentence = `${name} in ${brand} at ${mfw}, ${phrase}. ${starter} ${ending}`;
+  } else {
+    sentence = `${brand} x ${name} at ${mfw} is insane, ${phrase}! ${ending}`;
   }
-  item.text = maybeEmoji(item.text);
-  return item;
+
+  // If Slang style applies lowercasing, protect "PP Krit" from being lowercased
+  if (styleType === 0 && Math.random() < 0.35) {
+    sentence = sentence.replace(/PP Krit/g, "PP_KRIT_TOKEN")
+                       .toLowerCase()
+                       .replace(/pp_krit_token/g, "PP Krit");
+  }
+
+  sentence = insertEmojiSafely(sentence);
+
+  if (isX) {
+    const fullX = sentence + "\n\n" + X_TAGS;
+    if (fullX.length <= X_LIMIT) {
+      sentence = fullX;
+    } else {
+      sentence = insertEmojiSafely(`${name} in ${brand} at ${mfw}! ${phrase}`) + `\n\n${X_TAGS}`;
+    }
+  }
+
+  return { text: sentence, styleName: styleName };
 }
 
-function pickRandom() {
-  const out = [];
+function getBatch() {
+  const isX = currentMode.endsWith("-x");
+  const results = [];
+  const seen = new Set();
   let guard = 0;
-  while (out.length < COUNT && guard < 200) {
+
+  let styleIndex = 0;
+
+  while (results.length < PAGE_SIZE && guard < 400) {
     guard++;
-    const item = generateOne();
+    const currentStyle = styleIndex % 3;
+    const item = buildGrammarText(isX, currentStyle);
+    
     if (seen.has(item.text)) continue;
     seen.add(item.text);
-    out.push(item);
+    
+    results.push(item);
+    styleIndex++;
   }
-  return out;
+  return results;
 }
 
-const statsEl = document.getElementById("stats");
-function updateStats() {
-  const bv = (mode === "ig" || mode === "departIg") ? 3 : 4; // IG 模块不含 @GUCCI 变体
-  if (mode === "departIg" || mode === "departX") {
-    const totalDepart = (DATA_DEPART.SHORT.length + DATA_DEPART.MEDIUM.length) * NAME_VARIANTS.length * bv
-                      + DATA_DEPART.OPENERS.length * DATA_DEPART.CORES.length * DATA_DEPART.CLOSERS.length * NAME_VARIANTS.length * bv;
-    statsEl.textContent =
-      DATA_DEPART.SHORT.length + DATA_DEPART.MEDIUM.length + " templates + " +
-      (DATA_DEPART.OPENERS.length * DATA_DEPART.CORES.length * DATA_DEPART.CLOSERS.length) + " long-form combos ≈ " +
-      totalDepart.toLocaleString() + " unique comments possible";
-    return;
-  }
-  const totalUnique = (DATA.SHORT.length + DATA.MEDIUM.length) * NAME_VARIANTS.length * bv
-                    + DATA.OPENERS.length * DATA.CORES.length * DATA.CLOSERS.length * NAME_VARIANTS.length * bv;
-  statsEl.textContent =
-    DATA.SHORT.length + DATA.MEDIUM.length + " templates + " +
-    (DATA.OPENERS.length * DATA.CORES.length * DATA.CLOSERS.length) + " long-form combos ≈ " +
-    totalUnique.toLocaleString() + " unique comments possible";
-}
-updateStats();
-
-// ===== Render =====
 function render() {
   list.innerHTML = "";
-  pickRandom().forEach((item, i) => {
+  const items = getBatch();
+  items.forEach((item, i) => {
     const card = document.createElement("div");
     card.className = "card";
+    
     const highlighted = item.text
-      .replace(/PP Krit|PPKRIT|PPkrit/g, m => `<b>${m}</b>`)
-      .replace(/@?GUCCI\.?|Gucci/g, m => `<b>${m}</b>`);
-    card.innerHTML = `<div class="index">#${i + 1}<span class="tag ${item.tag}">${item.tag}</span></div>`
-      + `<div class="text">${highlighted}</div><div class="tip">Tap to copy</div>`;
+      .replace(/PP Krit/g, m => `<b>${m}</b>`)
+      .replace(/@?GUCCI|Gucci/g, m => `<b>${m}</b>`)
+      .replace(/MFW\d*|Milan Fashion Week/gi, m => `<b>${m}</b>`);
+
+    const styleClass = item.styleName === "Slang" ? "style-slang" : (item.styleName === "Elegant" ? "style-formal" : "style-hype");
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="index">#${i + 1}</span>
+        <div class="card-tags">
+          <span class="tag ${styleClass}">${item.styleName}</span>
+        </div>
+      </div>
+      <div class="text">${highlighted}</div>
+      <div style="text-align: right; margin-top: 4px;"><span class="tip">Tap to copy</span></div>
+    `;
+    
     card.addEventListener("click", () => copyText(item.text, card));
     list.appendChild(card);
   });
 }
 
-// ===== Tap to copy =====
 async function copyText(text, card) {
   try {
     await navigator.clipboard.writeText(text);
@@ -629,14 +408,12 @@ async function copyText(text, card) {
 
 document.getElementById("refreshBtn").addEventListener("click", render);
 
-// ===== Module switching (IG/TT <-> X) =====
 document.querySelectorAll(".tab").forEach(tab => {
   tab.addEventListener("click", () => {
-    if (mode === tab.dataset.mode) return;
-    mode = tab.dataset.mode;
+    if (currentMode === tab.dataset.mode) return;
+    currentMode = tab.dataset.mode;
     document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
     render();
-    updateStats();
   });
 });
 
