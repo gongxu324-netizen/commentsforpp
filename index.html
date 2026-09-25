@@ -135,7 +135,6 @@
     font-weight: 500;
     text-transform: uppercase;
   }
-  .tag.style-slang { background: rgba(255, 112, 67, 0.15); color: #ff7043; }
   .tag.style-formal { background: rgba(149, 117, 205, 0.15); color: #9575cd; }
   .tag.style-hype { background: rgba(100, 181, 246, 0.15); color: #64b5f6; }
 
@@ -186,17 +185,16 @@
   }
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 <div class="container">
   <h1>✨ PP Krit × GUCCI — Anti-Bot Engine ✨</h1>
   <p class="subtitle">Multi-Tone & Natural Style Alternating Generator</p>
-  <div class="combo-badge">🔥 2M+ Anti-Spam Combinations</div>
+  <div class="combo-badge">🔥 500M+ Anti-Spam Combinations</div>
   
   <div class="tabs">
-    <div class="tab active" id="tab1" data-mode="pre-ig">beforetheshow(IG/TT)</div>
-    <div class="tab" id="tab2" data-mode="pre-x">beforetheshow(X)</div>
-    <div class="tab" id="tab3" data-mode="on-ig">ontheshow(IG/TT)</div>
+    <div class="tab active" id="tab3" data-mode="on-ig">ontheshow(IG/TT)</div>
     <div class="tab" id="tab4" data-mode="on-x">ontheshow(X)</div>
   </div>
 
@@ -214,31 +212,36 @@ const DB = {
   BRAND_X: ["GUCCI", "Gucci", "@gucci"],
   MFW_VARIANTS: ["MFW", "Milan Fashion Week", "MFW26"],
 
-  // Style 1: Gen-Z Slang
-  SLANG: {
-    starters: ["nah fr", "bro,", "wait wait wait,", "literally crying,", "lowkey obsessed with how", "no because why is", "screaming because"],
-    verbs: ["looks insanely good in", "slays so hard in", "is totally rocking", "pulled up in full"],
-    phrases: ["that face card is never declining", "the silhouette and those proportions are crazy", "he looks like a literal runway model", "that waistline and posture is insane"],
-    endings: ["period!", "im obsessed.", "zero notes!", "im crying fr.", "pure perfection."]
-  },
-
-  // Style 2: High-Fashion Elegant
+  // Style 1: High-Fashion Elegant
   FORMAL: {
-    starters: ["Breathtaking appearance from", "A true embodiment of elegance,", "Exuding pure sophistication,", "Sensational high-fashion moment for", "Redefining modern luxury,"],
-    verbs: ["presents flawless tailoring in", "commands the event effortlessly wearing", "showcases remarkable poise in", "embodies timeless glamour with"],
-    phrases: ["with impeccable silhouette and refined aura", "highlighting exquisite facial features and regal stature", "serving ethereal beauty with a commanding presence", "a masterclass in high-fashion aesthetics and charm"],
-    endings: ["at Milan Fashion Week.", "for Gucci.", "an absolute highlight of the show.", "defining true elegance."]
+    starters: ["Breathtaking appearance from", "A true embodiment of elegance,", "Exuding pure sophistication,", "Sensational high-fashion moment for", "Redefining modern luxury,", "An absolutely captivating vision,", "Grace and grandeur personified in", "A mesmerizing display of haute couture from", "The epitome of refined glamour,", "Dressed to absolute perfection,", "A portrait of timeless beauty,", "Commanding attention with every stride,", "Refined, radiant, and utterly unforgettable,", "An evening of pure elegance courtesy of", "Sculpted by light and tailored to perfection,", "Every seam speaks of quiet luxury on", "Under the Milanese lights, nothing compares to", "A vision in monochrome and grace,", "The camera simply cannot do justice to", "Sophistication looks effortless on"],
+    adverbs: ["effortlessly", "gracefully", "with quiet confidence", "in truly remarkable fashion", "as only he can", "with an almost cinematic grace", "like it was tailored yesterday, just for him"],
+    verbs: ["presents flawless tailoring in", "commands the event effortlessly wearing", "showcases remarkable poise in", "embodies timeless glamour with", "radiates understated luxury in", "delivers a striking sartorial statement in", "elevates the entire front row wearing", "captivates every lens in", "carries the heritage of the house with grace in", "drapes himself in quiet luxury wearing", "interprets modern couture flawlessly in", "wears with an air of aristocratic ease"],
+    phrases: ["with impeccable silhouette and refined aura", "highlighting exquisite facial features and regal stature", "serving ethereal beauty with a commanding presence", "a masterclass in high-fashion aesthetics and charm", "with every detail exquisitely considered", "where classic craftsmanship meets modern allure", "a seamless fusion of artistry and elegance", "with poise that could silence an entire runway", "the fabric falls as if it were made solely for him", "a study in proportion, texture, and quiet confidence", "grace woven into every thread and gesture", "beauty that feels both classic and strikingly contemporary"],
+    endings: ["at Milan Fashion Week.", "for Gucci.", "an absolute highlight of the show.", "defining true elegance.", "a moment of pure couture poetry.", "reinforcing his fashion icon status.", "nothing short of extraordinary.", "destined for the best-dressed lists.", "a triumph of style and substance.", "the very definition of la dolce vita.", "leaving an indelible mark on the season.", "elegance in its most authentic form.", "pure poetry in motion.", "the kind of moment fashion history remembers.", "impossibly chic, impossibly him.", "a love letter to Italian craftsmanship.", "simply beyond compare."]
   },
 
-  // Style 3: Fan Hype
+  // 连接/转折词, 随机注入
+  CONNECTORS: ["honestly,", "and yet,", "somehow,", "truthfully,", "and just like that,", "needless to say,", "without question,"],
+
+  // Style 2: Fan Hype
   HYPE: {
-    starters: ["OMG!!", "Look at him,", "I cannot breathe,", "Absolutely stunning,", "The main character is here,"],
-    verbs: ["is glowing so bright in", "is making everyone take photos in", "is taking over the entire timeline in", "is serving pure perfection in"],
-    phrases: ["such a handsome face and perfect body line", "his aura is literally out of this world", "that heavenly glow and gorgeous smile", "serving top-tier face card and unmatched elegance"],
-    endings: ["so proud of him!", "he killed this look!", "can't take my eyes off!", "we love to see it!"]
+    starters: ["OMG!!", "Look at him,", "I cannot breathe,", "Absolutely stunning,", "The main character is here,", "My heart can't handle this!!", "STOP EVERYTHING,", "Forever my favorite person,", "This is not a drill,", "He's just too precious,"],
+    verbs: ["is glowing so bright in", "is making everyone take photos in", "is taking over the entire timeline in", "is serving pure perfection in", "is shining like a whole constellation in", "is blessing our feeds in", "is out-visualing everyone in", "is pure art in motion in"],
+    phrases: ["such a handsome face and perfect body line", "his aura is literally out of this world", "that heavenly glow and gorgeous smile", "serving top-tier face card and unmatched elegance", "every angle is a magazine cover, every step is a statement", "the world truly isn't ready for this level of beauty", "he radiates warmth and star power at once", "one look and the whole timeline melted"],
+    endings: ["so proud of him!", "he killed this look!", "can't take my eyes off!", "we love to see it!", "protect him at all costs!", "our brightest star!", "he deserves the entire world!", "always and forever supporting him!", "my heart is so full!", "the world is truly his runway!", "he was born for this moment!", "i would frame every single photo!", "tears in my eyes, pride in my heart!", "our superstar, our pride!", "this look lives in my mind rent free!", "he never misses, not once!", "simply the most beautiful person inside and out!"]
   },
 
-  EMOJIS: ["🖤", "🤍", "💜", "✨", "🔥", "👑", "🌟", "💫", "👏", "🥂"]
+  // Hype 风格专属补充
+  HYPE_EXTRA: {
+    interjections: ["AAAAHHH", "be so fr right now", "not the way", "yall", "i'm actually shaking", "excuse me while I pass away", "the audacity of being this beautiful"],
+    fangirl_verbs: ["has me on my knees for", "is bias-wrecking everyone in", "has the whole fandom screaming over", "is collecting everyone's hearts in", "just ended every other look with"],
+    soft_phrases: ["he looks like the softest dream", "that gentle smile could heal anything", "a whole warm hug in human form", "precious beyond words", "his kindness literally shines through"]
+  },
+
+  EMOJIS: ["🖤", "🤍", "💜", "✨", "🔥", "👑", "🌟", "💫", "👏", "🥂", "🤍✨", "🫶", "🥹", "💎", "🌹", "⚡", "🖤✨", "🧸", "🍀", "🌙", "🕊️", "🪽", "💫✨", "🌸", "🤎", "🖤🤍", "✨👑", "🥀", "☁️", "🎀", "🌌", "💛",
+             "⭐", "🌠", "🪩", "💠", "🔮", "🌈", "☀️", "🌞", "💍", "🏆", "🎖️", "👼", "😇",
+             "✨⭐", "💫👑", "🌟💎", "⭐💫", "✨💠", "🌠✨", "👑💎", "🪽✨", "☀️✨", "🏆✨"]
 };
 
 const X_TAGS = "PP KRIT X GUCCI MFW26\n#GUCCISS27xPPKRIT\n#GucciTheStoreShow\n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
@@ -287,8 +290,6 @@ function buildGrammarText(isX, styleType) {
   
   let styleGroup, styleName;
   if (styleType === 0) {
-    styleGroup = DB.SLANG; styleName = "Slang";
-  } else if (styleType === 1) {
     styleGroup = DB.FORMAL; styleName = "Elegant";
   } else {
     styleGroup = DB.HYPE; styleName = "Hype";
@@ -298,23 +299,40 @@ function buildGrammarText(isX, styleType) {
   const verb = pick(styleGroup.verbs);
   const phrase = pick(styleGroup.phrases);
   const ending = pick(styleGroup.endings);
+  // 扩充词库随机注入
+  const adverb = pick(DB.FORMAL.adverbs);
+  const connector = pick(DB.CONNECTORS);
+  let hypeVerb = verb, hypePhrase = phrase;
+  if (styleType === 1 && Math.random() < 0.5) hypeVerb = pick(DB.HYPE_EXTRA.fangirl_verbs);
+  if (styleType === 1 && Math.random() < 0.5) hypePhrase = pick(DB.HYPE_EXTRA.soft_phrases);
+  const useConnector = Math.random() < 0.35;
 
   let sentence = "";
-  const structChoice = Math.floor(Math.random() * 3);
+  const structChoice = Math.floor(Math.random() * 10);
 
   if (structChoice === 0) {
     sentence = `${starter} ${name} ${verb} ${brand} at ${mfw}, ${phrase} - ${ending}`;
   } else if (structChoice === 1) {
     sentence = `${name} in ${brand} at ${mfw}, ${phrase}. ${starter} ${ending}`;
-  } else {
+  } else if (structChoice === 2) {
     sentence = `${brand} x ${name} at ${mfw} is insane, ${phrase}! ${ending}`;
-  }
-
-  // If Slang style applies lowercasing, protect "PP Krit" from being lowercased
-  if (styleType === 0 && Math.random() < 0.35) {
-    sentence = sentence.replace(/PP Krit/g, "PP_KRIT_TOKEN")
-                       .toLowerCase()
-                       .replace(/pp_krit_token/g, "PP Krit");
+  } else if (structChoice === 3) {
+    sentence = `${starter} ${name} ${verb} ${brand} at ${mfw} - ${phrase}, ${ending}`;
+  } else if (structChoice === 4) {
+    sentence = `${name}, ${phrase}. ${starter} ${verb} ${brand} at ${mfw}, ${ending}`;
+  } else if (structChoice === 5) {
+    sentence = `${starter} ${name} at ${mfw} in ${brand}: ${phrase}. ${ending}`;
+  } else if (structChoice === 6) {
+    sentence = `${name} ${verb} ${brand}, ${phrase}. ${starter} ${ending}`;
+  } else if (structChoice === 7) {
+    // 副词/连接词注入式
+    sentence = `${starter} ${name} ${verb} ${brand} at ${mfw} ${adverb}, ${phrase}. ${ending}`;
+  } else if (structChoice === 8) {
+    // 双句组合式
+    sentence = `${name} ${hypeVerb} ${brand} at ${mfw}. ${starter} ${hypePhrase} - ${ending}`;
+  } else {
+    // 连接词开头式
+    sentence = `${useConnector ? connector + " " : ""}${name} ${verb} ${brand} at ${mfw}, ${phrase}... ${ending}`;
   }
 
   sentence = insertEmojiSafely(sentence);
@@ -341,7 +359,7 @@ function getBatch() {
 
   while (results.length < PAGE_SIZE && guard < 400) {
     guard++;
-    const currentStyle = styleIndex % 3;
+    const currentStyle = styleIndex % 2;
     const item = buildGrammarText(isX, currentStyle);
     
     if (seen.has(item.text)) continue;
@@ -365,7 +383,7 @@ function render() {
       .replace(/@?GUCCI|Gucci/g, m => `<b>${m}</b>`)
       .replace(/MFW\d*|Milan Fashion Week/gi, m => `<b>${m}</b>`);
 
-    const styleClass = item.styleName === "Slang" ? "style-slang" : (item.styleName === "Elegant" ? "style-formal" : "style-hype");
+    const styleClass = item.styleName === "Elegant" ? "style-formal" : "style-hype";
 
     card.innerHTML = `
       <div class="card-header">
