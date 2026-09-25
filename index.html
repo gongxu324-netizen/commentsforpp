@@ -185,6 +185,7 @@
     transform: translateX(-50%) translateY(0);
   }
 </style>
+<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -240,7 +241,7 @@ const DB = {
   EMOJIS: ["🖤", "🤍", "💜", "✨", "🔥", "👑", "🌟", "💫", "👏", "🥂"]
 };
 
-const X_TAGS = "#GUCCISS27xPPKRIT\n#GucciTheStoreShow\n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
+const X_TAGS = "PP KRIT X GUCCI MFW26\n#GUCCISS27xPPKRIT\n#GucciTheStoreShow\n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
 const X_LIMIT = 280;
 const PAGE_SIZE = 8;
 
@@ -249,7 +250,7 @@ const toast = document.getElementById("toast");
 let toastTimer = null;
 let currentMode = "pre-ig";
 
-const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const pick = arr => arr[(Math.random() * arr.length) | 0];
 
 function insertEmojiSafely(text) {
   const count = Math.floor(Math.random() * 5);
