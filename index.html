@@ -195,8 +195,10 @@
   <div class="combo-badge">🔥 500M+ Anti-Spam Combinations</div>
   
   <div class="tabs">
-    <div class="tab active" id="tab3" data-mode="on-ig">IG / TT</div>
-    <div class="tab" id="tab4" data-mode="on-x">X (Twitter)</div>
+    <div class="tab active" id="tab-on-ig" data-mode="on-ig">ontheshow (IG/TT)</div>
+    <div class="tab" id="tab-on-x" data-mode="on-x">ontheshow (X)</div>
+    <div class="tab" id="tab-after-ig" data-mode="after-ig">aftertheshow (IG/TT)</div>
+    <div class="tab" id="tab-after-x" data-mode="after-x">aftertheshow (X)</div>
   </div>
 
   <button class="btn" id="refreshBtn">🎲 Generate New Batch (8 Unique Items)</button>
@@ -259,6 +261,34 @@ const DB = {
     "PP Krit embodies the GUCCI spirit.",
     "With PP Krit, GUCCI feels eternal."
   ],
+  // aftertheshow 风格: 看秀之旅大放异彩 + 展望未来合作
+  AFTER: {
+    starters: ["What an extraordinary journey,", "From the front row to every front page,", "A dazzling chapter in fashion history,", "A show-stopping trip in Milan,", "An unforgettable fashion week,", "A triumphant Milan adventure,"],
+    verbs: ["dazzled in", "owned every moment in", "shone brighter than every spotlight alongside", "made headlines worldwide in", "left the fashion world speechless in", "proved himself the undeniable muse of"],
+    phrases: ["with glowing coverage from Vogue, Elle and WWD", "as cameras chased his every breathtaking look", "the industry's eyes now fixed on his next move", "cementing his status as fashion's most-watched muse", "with praise pouring in from across the fashion capitals", "his natural chemistry with the house shining through"],
+    endings: ["the future with GUCCI looks brighter than ever.", "we cannot wait for his next chapter with Demna and the house.", "excited to see what he and Demna create together next.", "this is only the beginning of a beautiful partnership.", "the best is yet to come for this iconic duo.", "a new fashion journey awaits, and we are ready."]
+  },
+
+  // aftertheshow 短句库 (5-15词, 含 PP Krit + GUCCI)
+  SHORT_AFTER: [
+    "PP Krit's GUCCI journey was pure magic.",
+    "What a triumph for PP Krit and GUCCI.",
+    "PP Krit owned every GUCCI headline.",
+    "The world watched PP Krit shine for GUCCI.",
+    "PP Krit and GUCCI: a match made in Milan.",
+    "Every camera loved PP Krit at GUCCI.",
+    "PP Krit's GUCCI moment captivated fashion media worldwide.",
+    "Fashion's new golden boy: PP Krit for GUCCI.",
+    "The fashion world can't stop talking about PP Krit's GUCCI show.",
+    "Milan belonged to PP Krit and GUCCI.",
+    "PP Krit's GUCCI takeover was simply iconic.",
+    "All eyes were on PP Krit at GUCCI.",
+    "PP Krit made GUCCI history this week.",
+    "The future looks dazzling for PP Krit and GUCCI.",
+    "Next up: more magic from PP Krit, GUCCI and Demna.",
+    "A new GUCCI chapter begins for PP Krit."
+  ],
+
   SHORT_HYPE: [
     "PP Krit ate this GUCCI look.",
     "GUCCI never looked this good. PP Krit!",
@@ -286,39 +316,15 @@ const PAGE_SIZE = 8;
 const list = document.getElementById("list");
 const toast = document.getElementById("toast");
 let toastTimer = null;
-let currentMode = "pre-ig";
+let currentMode = "on-ig";
 
 const pick = arr => arr[(Math.random() * arr.length) | 0];
 
-function buildGrammarText(isX, styleType) {
+function buildMainText(styleGroup, styleType, isAfter, isX) {
   const brandPool = isX ? DB.BRAND_X : DB.BRAND_IG;
   const brand = pick(brandPool);
   const mfw = pick(DB.MFW_VARIANTS);
   const name = DB.NAME; // Strictly locked to "PP Krit"
-  
-  let styleGroup, styleName;
-  if (styleType === 0) {
-    styleGroup = DB.FORMAL; styleName = "Elegant";
-  } else {
-    styleGroup = DB.HYPE; styleName = "Hype";
-  }
-
-  // 约65%概率生成短句 (5-15单词), 保证整体>60%短句占比
-  if (Math.random() < 0.65) {
-    let short = pick(styleType === 0 ? DB.SHORT_FORMAL : DB.SHORT_HYPE);
-    // 短句内部再校验: 确保 5-15 个单词
-    let guard2 = 0;
-    while (guard2++ < 20) {
-      const w = short.split(/\s+/).filter(Boolean).length;
-      if (w >= 5 && w <= 15) break;
-      short = pick(styleType === 0 ? DB.SHORT_FORMAL : DB.SHORT_HYPE);
-    }
-    if (isX) {
-      const fullShort = short + "\n\n" + X_TAGS;
-      short = fullShort.length <= X_LIMIT ? fullShort : `PP Krit x ${brand}!\n\n${X_TAGS}`;
-    }
-    return { text: short, styleName: styleName };
-  }
 
   const starter = pick(styleGroup.starters);
   const verb = pick(styleGroup.verbs);
@@ -328,12 +334,13 @@ function buildGrammarText(isX, styleType) {
   const adverb = pick(DB.FORMAL.adverbs);
   const connector = pick(DB.CONNECTORS);
   let hypeVerb = verb, hypePhrase = phrase;
-  if (styleType === 1 && Math.random() < 0.5) hypeVerb = pick(DB.HYPE_EXTRA.fangirl_verbs);
-  if (styleType === 1 && Math.random() < 0.5) hypePhrase = pick(DB.HYPE_EXTRA.soft_phrases);
+  if (!isAfter && styleType === 1 && Math.random() < 0.5) hypeVerb = pick(DB.HYPE_EXTRA.fangirl_verbs);
+  if (!isAfter && styleType === 1 && Math.random() < 0.5) hypePhrase = pick(DB.HYPE_EXTRA.soft_phrases);
   const useConnector = Math.random() < 0.35;
 
   let sentence = "";
-  const structChoice = Math.floor(Math.random() * 10);
+  let structChoice = Math.floor(Math.random() * 10);
+  if (isAfter) structChoice = [0, 3, 5, 7][(Math.random() * 4) | 0]; // after模式只用与回顾/展望语序兼容的句式
 
   if (structChoice === 0) {
     sentence = `${starter} ${name} ${verb} ${brand} at ${mfw}, ${phrase} - ${ending}`;
@@ -363,13 +370,89 @@ function buildGrammarText(isX, styleType) {
   // 强制保证: 每条文案必须包含 PP Krit 与 GUCCI(或其变体)
   if (!sentence.includes(DB.NAME)) sentence = `${DB.NAME}, ${sentence}`;
   if (!/gucci/i.test(sentence)) sentence = `${sentence} for Gucci`;
+  return sentence;
+}
+
+// 按长度档位构造: tier0短句 / tier1精简结构(16-25词) / tier2-3完整结构
+function buildTierText(tier, styleGroup, styleType, isAfter, isX) {
+  const name = DB.NAME;
+  const brand = pick(isX ? DB.BRAND_X : DB.BRAND_IG);
+  const mfw = pick(DB.MFW_VARIANTS);
+
+  if (tier === 0) {
+    let s = isAfter ? pick(DB.SHORT_AFTER) : pick(styleType === 0 ? DB.SHORT_FORMAL : DB.SHORT_HYPE);
+    if (!s.includes(DB.NAME)) s = `${DB.NAME}, ${s}`;
+    if (!/gucci/i.test(s)) s = `${s} - for GUCCI.`;
+    return s;
+  }
+
+  if (tier === 1) {
+    // 16-25词: 精简结构 (去掉部分成分), 不足16词时补一个结尾成分
+    const t = (Math.random() * 3) | 0;
+    let s;
+    if (t === 0) s = `${pick(styleGroup.starters)} ${name} ${pick(styleGroup.verbs)} ${brand} at ${mfw} - ${pick(styleGroup.endings)}`;
+    else if (t === 1) s = `${name} ${pick(styleGroup.verbs)} ${brand} at ${mfw}, ${pick(styleGroup.phrases)}.`;
+    else s = `${pick(styleGroup.starters)} ${name} in ${brand} at ${mfw}: ${pick(styleGroup.phrases)}.`;
+    if (wordCount(s) < 16) s = `${s} ${pick(styleGroup.endings)}`;
+    return s;
+  }
+
+  if (tier === 3) {
+    // >35词: 完整结构 + 追加成分
+    let s = buildMainText(styleGroup, styleType, isAfter, isX);
+    if (wordCount(s) < 36) s = `${s} ${pick(styleGroup.starters)} ${pick(styleGroup.phrases)}.`;
+    return s;
+  }
+
+  return buildMainText(styleGroup, styleType, isAfter, isX);
+}
+
+function wordCount(text) {
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+function buildGrammarText(isX, styleType, isAfter) {
+  let styleGroup, styleName;
+  if (isAfter) {
+    styleGroup = DB.AFTER; styleName = styleType === 0 ? "Elegant" : "Hype";
+  } else if (styleType === 0) {
+    styleGroup = DB.FORMAL; styleName = "Elegant";
+  } else {
+    styleGroup = DB.HYPE; styleName = "Hype";
+  }
+
+  // 长度分层: 40% <=15词, 30% <=25词, 20% <=35词, 10% 长句
+  // X 平台受 280 字符限制不用超长句, 其份额并入中档; IG/TT 端比例微调以补偿回退损耗
+  const r = Math.random();
+  let tier = isX
+    ? (r < 0.35 ? 0 : r < 0.75 ? 1 : 2)
+    : (r < 0.34 ? 0 : r < 0.68 ? 1 : r < 0.9 ? 2 : 3);
+  const ranges = [[5, 15], [16, 25], [26, 35], [36, 999]];
+
+  let sentence = buildTierText(tier, styleGroup, styleType, isAfter, isX);
+  let guard = 0;
+  while (guard++ < 50) {
+    const w = wordCount(sentence);
+    const fit = tier === 3 ? w >= 36 : (w >= ranges[tier][0] && w <= ranges[tier][1]);
+    if (fit) break;
+    sentence = buildTierText(tier, styleGroup, styleType, isAfter, isX);
+    if (guard >= 50 && tier > 0) { // 兜底: 极难命中时降一档
+      tier--;
+      guard = 0;
+    }
+  }
 
   if (isX) {
-    const fullX = sentence + "\n\n" + X_TAGS;
-    if (fullX.length <= X_LIMIT) {
+    let fullX = sentence + "\n\n" + X_TAGS;
+    if (fullX.length > X_LIMIT) {
+      // X 总长度(含hashtags)不得超过280字符: 换更短短句
+      let s = isAfter ? pick(DB.SHORT_AFTER) : pick(styleType === 0 ? DB.SHORT_FORMAL : DB.SHORT_HYPE);
+      if (!/gucci/i.test(s)) s = `${s} - for GUCCI.`;
+      fullX = s + "\n\n" + X_TAGS;
+      if (fullX.length > X_LIMIT) fullX = `PP Krit x ${pick(DB.BRAND_X)}!\n\n${X_TAGS}`;
       sentence = fullX;
     } else {
-      sentence = `${name} in ${brand} at ${mfw}! ${phrase}` + `\n\n${X_TAGS}`;
+      sentence = fullX;
     }
   }
 
@@ -378,6 +461,7 @@ function buildGrammarText(isX, styleType) {
 
 function getBatch() {
   const isX = currentMode.endsWith("-x");
+  const isAfter = currentMode.indexOf("after") === 0;
   const results = [];
   const seen = new Set();
   let guard = 0;
@@ -387,7 +471,7 @@ function getBatch() {
   while (results.length < PAGE_SIZE && guard < 400) {
     guard++;
     const currentStyle = styleIndex % 2;
-    const item = buildGrammarText(isX, currentStyle);
+    const item = buildGrammarText(isX, currentStyle, isAfter);
     
     if (seen.has(item.text)) continue;
     seen.add(item.text);
