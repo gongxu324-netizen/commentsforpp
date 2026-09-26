@@ -186,6 +186,7 @@
 </style>
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -194,8 +195,8 @@
   <div class="combo-badge">🔥 500M+ Anti-Spam Combinations</div>
   
   <div class="tabs">
-    <div class="tab active" id="tab3" data-mode="on-ig">ontheshow(IG/TT)</div>
-    <div class="tab" id="tab4" data-mode="on-x">ontheshow(X)</div>
+    <div class="tab active" id="tab3" data-mode="on-ig">IG / TT</div>
+    <div class="tab" id="tab4" data-mode="on-x">X (Twitter)</div>
   </div>
 
   <button class="btn" id="refreshBtn">🎲 Generate New Batch (8 Unique Items)</button>
@@ -239,9 +240,43 @@ const DB = {
     soft_phrases: ["he looks like the softest dream", "that gentle smile could heal anything", "a whole warm hug in human form", "precious beyond words", "his kindness literally shines through"]
   },
 
-  EMOJIS: ["🖤", "🤍", "💜", "✨", "🔥", "👑", "🌟", "💫", "👏", "🥂", "🤍✨", "🫶", "🥹", "💎", "🌹", "⚡", "🖤✨", "🧸", "🍀", "🌙", "🕊️", "🪽", "💫✨", "🌸", "🤎", "🖤🤍", "✨👑", "🥀", "☁️", "🎀", "🌌", "💛",
-             "⭐", "🌠", "🪩", "💠", "🔮", "🌈", "☀️", "🌞", "💍", "🏆", "🎖️", "👼", "😇",
-             "✨⭐", "💫👑", "🌟💎", "⭐💫", "✨💠", "🌠✨", "👑💎", "🪽✨", "☀️✨", "🏆✨"]
+  // 短句库 (3-12 单词), 约40%概率使用
+  SHORT_FORMAL: [
+    "PP Krit wears GUCCI like poetry.",
+    "GUCCI has found its muse: PP Krit.",
+    "PP Krit, pure GUCCI elegance.",
+    "In GUCCI, PP Krit is unmatched.",
+    "PP Krit commands GUCCI couture.",
+    "GUCCI tailoring was made for PP Krit.",
+    "PP Krit turns GUCCI into poetry.",
+    "Nothing rivals PP Krit in GUCCI.",
+    "PP Krit defines modern GUCCI luxury.",
+    "GUCCI shines brighter with PP Krit.",
+    "PP Krit in GUCCI: simply perfect.",
+    "Every GUCCI thread suits PP Krit.",
+    "PP Krit elevates every GUCCI look.",
+    "GUCCI's finest moment: PP Krit.",
+    "PP Krit embodies the GUCCI spirit.",
+    "With PP Krit, GUCCI feels eternal."
+  ],
+  SHORT_HYPE: [
+    "PP Krit ate this GUCCI look.",
+    "GUCCI never looked this good. PP Krit!",
+    "PP Krit in GUCCI broke me.",
+    "This GUCCI fit on PP Krit? Perfect.",
+    "PP Krit owns every GUCCI frame.",
+    "GUCCI found its king: PP Krit.",
+    "PP Krit makes GUCCI look effortless.",
+    "No one does GUCCI like PP Krit.",
+    "PP Krit and GUCCI: a perfect match.",
+    "GUCCI could never miss with PP Krit.",
+    "PP Krit's GUCCI era is everything.",
+    "Screaming over PP Krit in GUCCI!",
+    "PP Krit turns GUCCI into art.",
+    "GUCCI hit the jackpot with PP Krit.",
+    "PP Krit in GUCCI is my religion.",
+    "This is PP Krit's GUCCI world."
+  ]
 };
 
 const X_TAGS = "PP KRIT X GUCCI MFW26\n#GUCCISS27xPPKRIT\n#GucciTheStoreShow\n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
@@ -255,33 +290,6 @@ let currentMode = "pre-ig";
 
 const pick = arr => arr[(Math.random() * arr.length) | 0];
 
-function insertEmojiSafely(text) {
-  const count = Math.floor(Math.random() * 5);
-  if (count === 0) return text;
-
-  let safeText = text
-    .replace(/PP Krit/g, "PP_KRIT_TOKEN")
-    .replace(/@gucci/gi, "AT_GUCCI_TOKEN")
-    .replace(/@ppkritt/gi, "AT_PPKRITT_TOKEN");
-
-  const tokens = safeText.split(" ");
-
-  for (let i = 0; i < count; i++) {
-    const e = pick(DB.EMOJIS);
-    if (tokens.length <= 2 || Math.random() < 0.65) {
-      tokens.push(e);
-    } else {
-      const pos = Math.floor(Math.random() * (tokens.length - 1)) + 1;
-      tokens[pos] = tokens[pos] + " " + e;
-    }
-  }
-
-  return tokens.join(" ")
-    .replace(/PP_KRIT_TOKEN/g, "PP Krit")
-    .replace(/AT_GUCCI_TOKEN/g, "@gucci")
-    .replace(/AT_PPKRITT_TOKEN/g, "@ppkritt");
-}
-
 function buildGrammarText(isX, styleType) {
   const brandPool = isX ? DB.BRAND_X : DB.BRAND_IG;
   const brand = pick(brandPool);
@@ -293,6 +301,23 @@ function buildGrammarText(isX, styleType) {
     styleGroup = DB.FORMAL; styleName = "Elegant";
   } else {
     styleGroup = DB.HYPE; styleName = "Hype";
+  }
+
+  // 约65%概率生成短句 (5-15单词), 保证整体>60%短句占比
+  if (Math.random() < 0.65) {
+    let short = pick(styleType === 0 ? DB.SHORT_FORMAL : DB.SHORT_HYPE);
+    // 短句内部再校验: 确保 5-15 个单词
+    let guard2 = 0;
+    while (guard2++ < 20) {
+      const w = short.split(/\s+/).filter(Boolean).length;
+      if (w >= 5 && w <= 15) break;
+      short = pick(styleType === 0 ? DB.SHORT_FORMAL : DB.SHORT_HYPE);
+    }
+    if (isX) {
+      const fullShort = short + "\n\n" + X_TAGS;
+      short = fullShort.length <= X_LIMIT ? fullShort : `PP Krit x ${brand}!\n\n${X_TAGS}`;
+    }
+    return { text: short, styleName: styleName };
   }
 
   const starter = pick(styleGroup.starters);
@@ -315,7 +340,7 @@ function buildGrammarText(isX, styleType) {
   } else if (structChoice === 1) {
     sentence = `${name} in ${brand} at ${mfw}, ${phrase}. ${starter} ${ending}`;
   } else if (structChoice === 2) {
-    sentence = `${brand} x ${name} at ${mfw} is insane, ${phrase}! ${ending}`;
+    sentence = `${brand} x ${name} at ${mfw} is a revelation, ${phrase}! ${ending}`;
   } else if (structChoice === 3) {
     sentence = `${starter} ${name} ${verb} ${brand} at ${mfw} - ${phrase}, ${ending}`;
   } else if (structChoice === 4) {
@@ -335,14 +360,16 @@ function buildGrammarText(isX, styleType) {
     sentence = `${useConnector ? connector + " " : ""}${name} ${verb} ${brand} at ${mfw}, ${phrase}... ${ending}`;
   }
 
-  sentence = insertEmojiSafely(sentence);
+  // 强制保证: 每条文案必须包含 PP Krit 与 GUCCI(或其变体)
+  if (!sentence.includes(DB.NAME)) sentence = `${DB.NAME}, ${sentence}`;
+  if (!/gucci/i.test(sentence)) sentence = `${sentence} for Gucci`;
 
   if (isX) {
     const fullX = sentence + "\n\n" + X_TAGS;
     if (fullX.length <= X_LIMIT) {
       sentence = fullX;
     } else {
-      sentence = insertEmojiSafely(`${name} in ${brand} at ${mfw}! ${phrase}`) + `\n\n${X_TAGS}`;
+      sentence = `${name} in ${brand} at ${mfw}! ${phrase}` + `\n\n${X_TAGS}`;
     }
   }
 
