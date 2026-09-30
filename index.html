@@ -177,6 +177,7 @@
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -248,7 +249,15 @@ const DB = {
     "PP Krit elevates every GUCCI look.",
     "GUCCI's finest moment: PP Krit.",
     "PP Krit embodies the GUCCI spirit.",
-    "With PP Krit, GUCCI feels eternal."
+    "With PP Krit, GUCCI feels eternal.",
+    "PP Krit and GUCCI: pure Milan magic.",
+    "A front-row king: PP Krit in GUCCI.",
+    "GUCCI tailoring finds its muse in PP Krit.",
+    "PP Krit carries GUCCI with quiet grace.",
+    "Milan bows to PP Krit in GUCCI.",
+    "PP Krit: the finest note in GUCCI's symphony.",
+    "Every GUCCI look is safer in PP Krit's hands.",
+    "PP Krit makes couture feel personal."
   ],
   // aftertheshow 风格: 看秀之旅大放异彩 + 展望未来合作
   AFTER: {
@@ -275,7 +284,15 @@ const DB = {
     "PP Krit made GUCCI history this week.",
     "The future looks dazzling for PP Krit and GUCCI.",
     "Next up: more magic from PP Krit, GUCCI and Demna.",
-    "A new GUCCI chapter begins for PP Krit."
+    "A new GUCCI chapter begins for PP Krit.",
+    "PP Krit left Milan with every headline.",
+    "What a week for PP Krit and GUCCI.",
+    "PP Krit's GUCCI takeover has only begun.",
+    "Milan will remember PP Krit's name.",
+    "PP Krit turned a show trip into history.",
+    "The next GUCCI chapter belongs to PP Krit.",
+    "PP Krit's fashion journey is just getting started.",
+    "History made: PP Krit for GUCCI in Milan."
   ],
 
   SHORT_HYPE: [
@@ -294,13 +311,46 @@ const DB = {
     "PP Krit turns GUCCI into art.",
     "GUCCI hit the jackpot with PP Krit.",
     "PP Krit in GUCCI is my religion.",
-    "This is PP Krit's GUCCI world."
-  ]
+    "This is PP Krit's GUCCI world.",
+    "PP Krit in GUCCI? I'm unwell.",
+    "GUCCI said let's give PP Krit everything.",
+    "PP Krit just rewrote the GUCCI lookbook.",
+    "No thoughts, just PP Krit in GUCCI.",
+    "PP Krit said GUCCI is mine now.",
+    "GUCCI could never top this. PP Krit did.",
+    "PP Krit's GUCCI fit broke my whole feed.",
+    "Protect PP Krit in GUCCI at all costs."
+  ],
+
+  // 组合式短句部件: 保证 tier0 长期不枯竭
+  SHORT_BITS: {
+    adjectives: ["pure","absolute","quiet","modern","timeless","effortless","radiant","impeccable","stunning","unmatched","understated","breathtaking","dreamy","polished"],
+    nouns: ["elegance","luxury","poetry","perfection","grace","magic","sophistication","glamour","couture","brilliance","charm","allure"],
+    verbs2: ["owns","elevates","redefines","embodies","commands","transforms","lights up","anchors","completes","grace"],
+    objects: ["every frame","the front row","Milan","the runway","the night","every lens","the season","the silhouette","the spotlight"],
+    hypeBits: ["ate","snapped","served","delivered","devoured","conquered","owned","shut down"]
+  }
 };
 
 const X_TAGS = "PP KRIT X GUCCI MFW26\n#GUCCISS27xPPKRIT\n#GucciTheStoreShow\n#Gucci #PPKritt #MFW\n@gucci @ppkritt";
 const X_LIMIT = 280;
 const PAGE_SIZE = 8;
+
+// ===== 跨刷新去重: 本会话内已生成的文案不再出现 =====
+const SEEN_KEY = "ppgen_seen_v1";
+const SEEN_CAP = 800; // 记住最近 800 条
+function loadSeen() {
+  try {
+    const raw = sessionStorage.getItem(SEEN_KEY);
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch (e) { return new Set(); }
+}
+function saveSeen(set) {
+  try {
+    const arr = Array.from(set);
+    sessionStorage.setItem(SEEN_KEY, JSON.stringify(arr.slice(-SEEN_CAP)));
+  } catch (e) {}
+}
 
 const list = document.getElementById("list");
 const toast = document.getElementById("toast");
@@ -369,6 +419,39 @@ function buildTierText(tier, styleGroup, styleType, isAfter, isX) {
   const mfw = pick(DB.MFW_VARIANTS);
 
   if (tier === 0) {
+    // 75% 走组合式短句(空间大, 防长期会话撞库), 其余走固定短句库
+    if (Math.random() < 0.75) {
+      const B = DB.SHORT_BITS;
+      const adj = pick(B.adjectives), noun = pick(B.nouns),
+            v2 = pick(B.verbs2), obj = pick(B.objects), hv = pick(B.hypeBits);
+      let forms;
+      if (isAfter) {
+        forms = [
+          `${name} x ${brand}: what a journey.`,
+          `${name} and ${brand} - history made.`,
+          `${name} ${v2} ${obj} in ${brand}.`,
+          `${name} x ${brand}: a new chapter begins.`
+        ];
+      } else if (styleType === 0) {
+        forms = [
+          `${name} x ${brand}: ${adj} ${noun}.`,
+          `${name} ${v2} ${obj} in ${brand}.`,
+          `${name}, ${adj} in ${brand}.`,
+          `${brand} and ${name}: ${adj} ${noun}.`
+        ];
+      } else {
+        forms = [
+          `${name} ${hv} this ${brand} look.`,
+          `${name} in ${brand}? ${adj} ${noun}.`,
+          `${name} ${hv} ${obj}!`,
+          `${name} and ${brand} - ${adj} ${noun}!`
+        ];
+      }
+      let s = pick(forms);
+      if (!s.includes(name)) s = `${name}, ${s}`;
+      if (!/gucci/i.test(s)) s = `${s} - for GUCCI.`;
+      return s;
+    }
     let s = isAfter ? pick(DB.SHORT_AFTER) : pick(styleType === 0 ? DB.SHORT_FORMAL : DB.SHORT_HYPE);
     if (!s.includes(DB.NAME)) s = `${DB.NAME}, ${s}`;
     if (!/gucci/i.test(s)) s = `${s} - for GUCCI.`;
@@ -412,10 +495,11 @@ function buildGrammarText(isX, styleType, isAfter) {
 
   // 长度分层: 40% <=15词, 30% <=25词, 20% <=35词, 10% 长句
   // X 平台受 280 字符限制不用超长句, 其份额并入中档; IG/TT 端比例微调以补偿回退损耗
+  // 85% 控制在 25 词以内: tier0(5-15词) 40% + tier1(16-25词) 45%
   const r = Math.random();
   let tier = isX
-    ? (r < 0.35 ? 0 : r < 0.75 ? 1 : 2)
-    : (r < 0.34 ? 0 : r < 0.68 ? 1 : r < 0.9 ? 2 : 3);
+    ? (r < 0.40 ? 0 : r < 0.85 ? 1 : 2)
+    : (r < 0.40 ? 0 : r < 0.85 ? 1 : r < 0.95 ? 2 : 3);
   const ranges = [[5, 15], [16, 25], [26, 35], [36, 999]];
 
   let sentence = buildTierText(tier, styleGroup, styleType, isAfter, isX);
@@ -453,21 +537,33 @@ function getBatch() {
   const isAfter = currentMode.indexOf("after") === 0;
   const results = [];
   const seen = new Set();
-  let guard = 0;
-
+  let globalSeen = loadSeen();
   let styleIndex = 0;
+  let misses = 0;      // 连续撞车计数
+  let flushed = false; // 历史库耗尽后只重置一次
 
-  while (results.length < PAGE_SIZE && guard < 400) {
-    guard++;
+  while (results.length < PAGE_SIZE) {
     const currentStyle = styleIndex % 2;
     const item = buildGrammarText(isX, currentStyle, isAfter);
-    
-    if (seen.has(item.text)) continue;
+
+    if (seen.has(item.text) || globalSeen.has(item.text)) {
+      misses++;
+      // 连续撞车超过 300 次 = 组合空间耗尽, 清空历史库兜底
+      if (misses > 300 && !flushed) {
+        globalSeen = new Set();
+        flushed = true;
+        misses = 0;
+      }
+      if (misses > 800) break; // 极端兜底, 避免死循环
+      continue;
+    }
+    misses = 0;
     seen.add(item.text);
-    
+    globalSeen.add(item.text);
     results.push(item);
     styleIndex++;
   }
+  saveSeen(globalSeen);
   return results;
 }
 
