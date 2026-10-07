@@ -214,12 +214,11 @@
 <div class="toast" id="toast">Copied to Clipboard ✓</div>
 
 <script>
-// X 平台专属后缀内容 (正文结束后双换行并紧跟指定格式)
+// X 平台专属后缀内容
 const X_HASHTAGS = "\n\nPP KRIT AT RIMOWA LAUNCH\n#RIMOWAEssentialxPPKRIT\n#PPKritt#RIMOWA @rimowa\n#RIMOWAEssential #RIMOWAColours";
 
 // 词库构件
 const VOCAB = {
-  // 开头 (无任何 attend the event 相关词)
   starters: [
     "PP Krit with RIMOWA,",
     "PP Krit at the RIMOWA launch,",
@@ -231,8 +230,6 @@ const VOCAB = {
     "PP Krit with the RIMOWA Essential collection,",
     "PP Krit showcasing RIMOWA Essential,"
   ],
-
-  // 核心旅途、家人记忆与伴侣感表达
   corePhrases: [
     "every journey carries meaningful memories.",
     "a suitcase is a trusted lifelong companion.",
@@ -243,15 +240,11 @@ const VOCAB = {
     "luggage isn't just a tool, it's a friend for life.",
     "finding a trusted travel companion for a lifetime of memories."
   ],
-
-  // 颜色亮点 (适度控制出现频率)
   colorHighlights: [
     "highlighting the Ultramarine and Umber shades.",
     "featuring the classic Ultramarine and Umber palette.",
     "accented with Ultramarine and Umber tones."
   ],
-
-  // 精简文案组 (<=15词)
   shortCaptions: [
     "PP Krit with RIMOWA. Every journey tells a story! Never Still.",
     "PP Krit x RIMOWA: a trusted companion for a lifetime of memories.",
@@ -266,6 +259,145 @@ const VOCAB = {
     "PP Krit with RIMOWA. A suitcase that holds family travel memories.",
     "PP Krit x RIMOWA Essential: more than luggage, a lifelong friend."
   ],
+  mediumCaptions: [
+    "PP Krit with RIMOWA! Traveling is all about creating cherished lifetime memories with family and loved ones. Never Still!",
+    "PP Krit at the RIMOWA launch. A trusted suitcase is a companion that accompanies every meaningful journey in life.",
+    "PP Krit with RIMOWA Essential! Every suitcase tells a unique story for a lifetime of lives and adventures.",
+    "PP Krit x RIMOWA: carrying family travel memories along every beautiful path. Find your trusted companion for life.",
+    "PP Krit sharing moments with RIMOWA Essential in Ultramarine and Umber. For a lifetime of memories!"
+  ]
+};
 
-  // 中长文案组 (16-25词)
-  mediumCaptions:
+const PAGE_SIZE = 8;
+let currentPlatform = "ig";
+const toast = document.getElementById("toast");
+let toastTimer = null;
+
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+function getWordCount(text) {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function generateRawBody(isShortTarget) {
+  if (isShortTarget) {
+    if (Math.random() < 0.6) return pick(VOCAB.shortCaptions);
+    const starter = pick(VOCAB.starters);
+    const core = pick(VOCAB.corePhrases);
+    if (Math.random() < 0.15) {
+      return `${starter} ${pick(VOCAB.colorHighlights)} ${core}`;
+    }
+    return `${starter} ${core}`;
+  } else {
+    if (Math.random() < 0.5) return pick(VOCAB.mediumCaptions);
+    return `${pick(VOCAB.starters)} ${pick(VOCAB.corePhrases)} ${pick(VOCAB.corePhrases)}`;
+  }
+}
+
+function buildCaption(platform, isShortTarget) {
+  let body = "";
+  let wordCount = 0;
+  let guard = 0;
+
+  while (guard++ < 50) {
+    body = generateRawBody(isShortTarget);
+    if (platform === "ig") {
+      body = body.replace(/@rimowa/gi, "RIMOWA");
+    }
+    wordCount = getWordCount(body);
+    if (isShortTarget && wordCount <= 15) break;
+    if (!isShortTarget && wordCount > 15 && wordCount <= 25) break;
+  }
+
+  if (wordCount > 25 || !body) {
+    body = "PP Krit with RIMOWA. Every journey carries a lifetime of precious family memories.";
+    wordCount = getWordCount(body);
+  }
+
+  let fullText = body;
+  if (platform === "x") {
+    fullText = body + X_HASHTAGS;
+  }
+
+  return { text: fullText, bodyWordCount: wordCount };
+}
+
+// 安全高亮文本处理
+function formatHighlightedText(text) {
+  return text
+    .replace(/PP Krit/gi, "<b>PP Krit</b>")
+    .replace(/RIMOWA/gi, "<b>RIMOWA</b>")
+    .replace(/@rimowa/gi, "<b>@rimowa</b>");
+}
+
+function render() {
+  const list = document.getElementById("list");
+  if (!list) return;
+  list.innerHTML = "";
+
+  for (let i = 0; i < PAGE_SIZE; i++) {
+    const isShort = i < 6; // 保证大部分为精简版
+    const item = buildCaption(currentPlatform, isShort);
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const tagClass = currentPlatform === "ig" ? "platform-ig" : "platform-x";
+    const tagLabel = currentPlatform === "ig" ? "IG/TT (No @)" : "X (Hashtags)";
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="index">#${i + 1} • Words: ${item.bodyWordCount}</span>
+        <div class="card-tags">
+          <span class="tag ${tagClass}">${tagLabel}</span>
+        </div>
+      </div>
+      <div class="text">${formatHighlightedText(item.text)}</div>
+      <div style="text-align: right; margin-top: 6px;"><span class="tip">Tap to copy</span></div>
+    `;
+
+    card.addEventListener("click", () => copyText(item.text, card));
+    list.appendChild(card);
+  }
+}
+
+async function copyText(text, card) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (e) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+  card.classList.add("copied");
+  card.querySelector(".tip").textContent = "Copied ✓";
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+    card.classList.remove("copied");
+    card.querySelector(".tip").textContent = "Tap to copy";
+  }, 1500);
+}
+
+document.getElementById("refreshBtn").addEventListener("click", render);
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    if (currentPlatform === tab.dataset.mode) return;
+    currentPlatform = tab.dataset.mode;
+    document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
+    render();
+  });
+});
+
+// 页面加载完成后立即渲染
+window.addEventListener("DOMContentLoaded", render);
+</script>
+</body>
+</html>
