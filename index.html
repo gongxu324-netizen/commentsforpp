@@ -203,53 +203,55 @@
 <script>
 const X_HASHTAGS = "\n\nPP KRIT AT RIMOWA LAUNCH\n#RIMOWAEssentialxPPKRIT\n#PPKritt#RIMOWA @rimowa\n#RIMOWAEssential #RIMOWAColours";
 
-const VOCAB = {
-  starters: [
-    "PP Krit with RIMOWA,",
-    "PP Krit at the RIMOWA launch,",
-    "PP Krit x RIMOWA,",
-    "PP Krit on his journey with RIMOWA,",
-    "PP Krit sharing travel moments with RIMOWA,",
-    "PP Krit and RIMOWA celebrating life's meaningful paths,",
-    "PP Krit discovering new horizons with RIMOWA,",
-    "PP Krit with the RIMOWA Essential collection,",
-    "PP Krit showcasing RIMOWA Essential,"
-  ],
-  corePhrases: [
-    "every journey carries meaningful memories.",
-    "a suitcase is a trusted lifelong companion.",
-    "every RIMOWA suitcase tells a unique story.",
-    "capturing cherished family trip memories across every path.",
-    "embracing the 'Never Still' spirit together.",
-    "for a lifetime of lives and unforgettable travels.",
-    "luggage isn't just a tool, it's a friend for life.",
-    "finding a trusted travel companion for a lifetime of memories."
-  ],
-  colorHighlights: [
-    "highlighting the Ultramarine and Umber shades.",
-    "featuring the classic Ultramarine and Umber palette.",
-    "accented with Ultramarine and Umber tones."
-  ],
+// IG/TT 平台专用词库（强制要求必须有 PP Krit 与 RIMOWA）
+const VOCAB_IG = {
   shortCaptions: [
-    "PP Krit with RIMOWA. Every journey tells a story! Never Still.",
-    "PP Krit x RIMOWA: a trusted companion for a lifetime of memories.",
-    "PP Krit with RIMOWA Essential. Travel is about cherishing family trip memories.",
-    "PP Krit at the RIMOWA launch, celebrating endless meaningful journeys. Never Still!",
-    "PP Krit with RIMOWA: carrying lifetime memories across every path.",
-    "PP Krit x RIMOWA! For a lifetime of lives and unforgettable travels.",
-    "PP Krit sharing travel stories with RIMOWA. Always Never Still.",
-    "PP Krit with RIMOWA Essential in Ultramarine and Umber. Truly iconic!",
-    "PP Krit and RIMOWA: finding your trusted travel companion for life.",
-    "PP Krit at the RIMOWA launch, exploring new horizons together.",
-    "PP Krit with RIMOWA. A suitcase that holds family travel memories.",
-    "PP Krit x RIMOWA Essential: more than luggage, a lifelong friend."
+    "PP Krit with RIMOWA! Experiencing the pure joy of travel. Never Still.",
+    "PP Krit x RIMOWA: guaranteed quality for a lifetime of memories.",
+    "PP Krit with RIMOWA Essential. Discovering the true joy of travel with family.",
+    "PP Krit at the RIMOWA launch, celebrating endless journeys and guaranteed quality. Never Still!",
+    "PP Krit with RIMOWA: carrying lifetime memories with guaranteed quality.",
+    "PP Krit x RIMOWA! Unlocking the joy of travel for a lifetime of lives.",
+    "PP Krit sharing travel stories with RIMOWA. Timeless design, guaranteed quality.",
+    "PP Krit with RIMOWA Essential in Ultramarine and Umber. True joy of travel!",
+    "PP Krit and RIMOWA: finding your trusted travel companion with guaranteed quality.",
+    "PP Krit at the RIMOWA launch, exploring the joy of new adventures together.",
+    "PP Krit with RIMOWA. Premium craftsmanship and guaranteed quality on every path.",
+    "PP Krit x RIMOWA Essential: guaranteed quality and pure travel joy."
   ],
   mediumCaptions: [
-    "PP Krit with RIMOWA! Traveling is all about creating cherished lifetime memories with family and loved ones. Never Still!",
-    "PP Krit at the RIMOWA launch. A trusted suitcase is a companion that accompanies every meaningful journey in life.",
-    "PP Krit with RIMOWA Essential! Every suitcase tells a unique story for a lifetime of lives and adventures.",
-    "PP Krit x RIMOWA: carrying family travel memories along every beautiful path. Find your trusted companion for life.",
-    "PP Krit sharing moments with RIMOWA Essential in Ultramarine and Umber. For a lifetime of memories!"
+    "PP Krit with RIMOWA! Traveling is all about embracing guaranteed quality and creating cherished lifetime memories. Never Still!",
+    "PP Krit at the RIMOWA launch. Discovering the true joy of travel with a companion built with guaranteed quality.",
+    "PP Krit with RIMOWA Essential! Unlocking the joy of travel and lifetime memories across every single path.",
+    "PP Krit x RIMOWA: carrying family travel memories with guaranteed quality. Experience the real joy of travel.",
+    "PP Krit sharing moments with RIMOWA Essential in Ultramarine and Umber. Guaranteed quality for a lifetime!"
+  ]
+};
+
+// X 平台专属扩充词库（允许自由表达，无需强制带有品牌词）
+const VOCAB_X = {
+  shortCaptions: [
+    "Discovering the pure joy of travel with guaranteed quality.",
+    "Every journey carries meaningful family memories. Never Still!",
+    "A trusted companion for a lifetime of journeys.",
+    "Experiencing the true joy of travel in Ultramarine and Umber.",
+    "Guaranteed quality that accompanies you through every meaningful story.",
+    "Carrying cherished memories across every destination.",
+    "Unlocking new horizons with timeless design and guaranteed quality.",
+    "For a lifetime of lives and unforgettable adventures.",
+    "Traveling is all about the memories we create along the way.",
+    "Every path holds a new story waiting to unfold. Always Never Still.",
+    "Embracing the beauty of the journey with guaranteed quality.",
+    "Finding pure joy in every new destination.",
+    "PP Krit with RIMOWA! Experiencing the pure joy of travel.",
+    "PP Krit x RIMOWA: guaranteed quality for a lifetime of memories."
+  ],
+  mediumCaptions: [
+    "Traveling is all about embracing guaranteed quality and creating cherished lifetime memories along the way. Never Still!",
+    "Discovering the true joy of travel with a trusted companion built with guaranteed quality and timeless elegance.",
+    "Unlocking the joy of travel and creating lifelong memories across every single destination.",
+    "Carrying family travel memories along every beautiful path with guaranteed craftsmanship.",
+    "A journey of a thousand miles begins with a trusted companion. Here's to a lifetime of memories!"
   ]
 };
 
@@ -258,7 +260,6 @@ let currentPlatform = "ig";
 const toast = document.getElementById("toast");
 let toastTimer = null;
 
-// 去重集合
 let historySet = new Set();
 
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -267,18 +268,12 @@ function getWordCount(text) {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
 
-function generateRawBody(isShortTarget) {
+function generateRawBody(platform, isShortTarget) {
+  const vocab = platform === "ig" ? VOCAB_IG : VOCAB_X;
   if (isShortTarget) {
-    if (Math.random() < 0.6) return pick(VOCAB.shortCaptions);
-    const starter = pick(VOCAB.starters);
-    const core = pick(VOCAB.corePhrases);
-    if (Math.random() < 0.15) {
-      return `${starter} ${pick(VOCAB.colorHighlights)} ${core}`;
-    }
-    return `${starter} ${core}`;
+    return pick(vocab.shortCaptions);
   } else {
-    if (Math.random() < 0.5) return pick(VOCAB.mediumCaptions);
-    return `${pick(VOCAB.starters)} ${pick(VOCAB.corePhrases)} ${pick(VOCAB.corePhrases)}`;
+    return pick(vocab.mediumCaptions);
   }
 }
 
@@ -288,7 +283,7 @@ function buildCaption(platform, isShortTarget) {
   let guard = 0;
 
   while (guard++ < 50) {
-    body = generateRawBody(isShortTarget);
+    body = generateRawBody(platform, isShortTarget);
     if (platform === "ig") {
       body = body.replace(/@rimowa/gi, "RIMOWA");
     }
@@ -298,7 +293,9 @@ function buildCaption(platform, isShortTarget) {
   }
 
   if (wordCount > 25 || !body) {
-    body = "PP Krit with RIMOWA. Every journey carries a lifetime of precious family memories.";
+    body = platform === "ig" 
+      ? "PP Krit with RIMOWA. Experience the pure joy of travel with guaranteed quality."
+      : "Experience the pure joy of travel with guaranteed quality and timeless companion.";
     wordCount = getWordCount(body);
   }
 
@@ -312,9 +309,9 @@ function buildCaption(platform, isShortTarget) {
 
 function formatHighlightedText(text) {
   return text
-    .replace(/PP Krit/gi, "<b>PP Krit</b>")
-    .replace(/RIMOWA/gi, "<b>RIMOWA</b>")
-    .replace(/@rimowa/gi, "<b>@rimowa</b>");
+    .replace(/PP Krit|PP KRIT/g, "<b>PP Krit</b>")
+    .replace(/RIMOWA/g, "<b>RIMOWA</b>")
+    .replace(/@rimowa/g, "<b>@rimowa</b>");
 }
 
 function render() {
@@ -322,7 +319,7 @@ function render() {
   if (!list) return;
   list.innerHTML = "";
 
-  const currentBatchSet = new Set(); // 确保本次页面的 8 张卡片绝对唯一
+  const currentBatchSet = new Set();
   let itemsGenerated = 0;
   let attempts = 0;
 
@@ -331,12 +328,10 @@ function render() {
     const isShort = itemsGenerated < 6;
     const item = buildCaption(currentPlatform, isShort);
 
-    // 双重去重规则：不能在当前页重复，也不在历史缓存重复
     if (!currentBatchSet.has(item.text) && !historySet.has(item.text)) {
       currentBatchSet.add(item.text);
       historySet.add(item.text);
 
-      // 控制历史缓存容量
       if (historySet.size > 200) historySet.clear();
 
       const card = document.createElement("div");
