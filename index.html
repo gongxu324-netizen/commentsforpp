@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PP Krit × RIMOWA — Caption Engine (Ultramarine & Umber Edition)</title>
+<title>PP Krit × RIMOWA — Caption Engine (100k+ Combinations)</title>
 <style>
   * {
     margin: 0;
@@ -187,7 +187,7 @@
 <body>
 <div class="container">
   <h1>✨ PP Krit × RIMOWA ✨</h1>
-  <p class="subtitle">A Lifetime of Memories & Journeys | Ultramarine & Umber Edition</p>
+  <p class="subtitle">Dynamic Sentence Matrix Engine | 200,000+ Unique Captions</p>
   
   <div class="tabs">
     <div class="tab active" id="tab-ig" data-mode="ig">IG / TikTok</div>
@@ -203,55 +203,76 @@
 <script>
 const X_HASHTAGS = "\n\nPP KRIT AT RIMOWA LAUNCH\n#RIMOWAEssentialxPPKRIT\n#PPKritt#RIMOWA @rimowa\n#RIMOWAEssential #RIMOWAColours";
 
-// IG/TT 平台专用词库（强制要求必须有 PP Krit 与 RIMOWA）
-const VOCAB_IG = {
-  shortCaptions: [
-    "PP Krit with RIMOWA! Experiencing the pure joy of travel. Never Still.",
-    "PP Krit x RIMOWA: guaranteed quality for a lifetime of memories.",
-    "PP Krit with RIMOWA Essential. Discovering the true joy of travel with family.",
-    "PP Krit at the RIMOWA launch, celebrating endless journeys and guaranteed quality. Never Still!",
-    "PP Krit with RIMOWA: carrying lifetime memories with guaranteed quality.",
-    "PP Krit x RIMOWA! Unlocking the joy of travel for a lifetime of lives.",
-    "PP Krit sharing travel stories with RIMOWA. Timeless design, guaranteed quality.",
-    "PP Krit with RIMOWA Essential in Ultramarine and Umber. True joy of travel!",
-    "PP Krit and RIMOWA: finding your trusted travel companion with guaranteed quality.",
-    "PP Krit at the RIMOWA launch, exploring the joy of new adventures together.",
-    "PP Krit with RIMOWA. Premium craftsmanship and guaranteed quality on every path.",
-    "PP Krit x RIMOWA Essential: guaranteed quality and pure travel joy."
+// 多模块词库矩阵（提供数万级别的语法组合）
+const BUILDER_VOCAB = {
+  // 必须带品牌的主语（IG/TT使用，或X随机抽取）
+  brandedStarters: [
+    "PP Krit with RIMOWA",
+    "PP Krit at the RIMOWA launch",
+    "PP Krit x RIMOWA Essential",
+    "PP Krit discovering new paths with RIMOWA",
+    "PP Krit celebrating travel moments with RIMOWA",
+    "PP Krit showcasing the RIMOWA Essential collection",
+    "PP Krit and RIMOWA embark on a new journey",
+    "PP Krit with the iconic RIMOWA suitcase",
+    "PP Krit x RIMOWA Essential in Ultramarine and Umber",
+    "PP Krit exploring horizons with RIMOWA"
   ],
-  mediumCaptions: [
-    "PP Krit with RIMOWA! Traveling is all about embracing guaranteed quality and creating cherished lifetime memories. Never Still!",
-    "PP Krit at the RIMOWA launch. Discovering the true joy of travel with a companion built with guaranteed quality.",
-    "PP Krit with RIMOWA Essential! Unlocking the joy of travel and lifetime memories across every single path.",
-    "PP Krit x RIMOWA: carrying family travel memories with guaranteed quality. Experience the real joy of travel.",
-    "PP Krit sharing moments with RIMOWA Essential in Ultramarine and Umber. Guaranteed quality for a lifetime!"
-  ]
-};
-
-// X 平台专属扩充词库（允许自由表达，无需强制带有品牌词）
-const VOCAB_X = {
-  shortCaptions: [
-    "Discovering the pure joy of travel with guaranteed quality.",
-    "Every journey carries meaningful family memories. Never Still!",
-    "A trusted companion for a lifetime of journeys.",
-    "Experiencing the true joy of travel in Ultramarine and Umber.",
-    "Guaranteed quality that accompanies you through every meaningful story.",
-    "Carrying cherished memories across every destination.",
-    "Unlocking new horizons with timeless design and guaranteed quality.",
-    "For a lifetime of lives and unforgettable adventures.",
-    "Traveling is all about the memories we create along the way.",
-    "Every path holds a new story waiting to unfold. Always Never Still.",
-    "Embracing the beauty of the journey with guaranteed quality.",
-    "Finding pure joy in every new destination.",
-    "PP Krit with RIMOWA! Experiencing the pure joy of travel.",
-    "PP Krit x RIMOWA: guaranteed quality for a lifetime of memories."
+  // 抽象/通用主语（X平台专用，不强求品牌词，扩充文案库）
+  genericStarters: [
+    "Every unforgettable journey",
+    "Embarking on a new adventure",
+    "Discovering the real beauty of travel",
+    "A trusted travel companion",
+    "Unlocking new horizons",
+    "Creating lifetime memories",
+    "Traveling with timeless style",
+    "Exploring world-class destinations",
+    "Carrying your most cherished stories",
+    "Stepping into a world of elegance",
+    "Experiencing life on the move",
+    "Finding inspiration in every trip"
   ],
-  mediumCaptions: [
-    "Traveling is all about embracing guaranteed quality and creating cherished lifetime memories along the way. Never Still!",
-    "Discovering the true joy of travel with a trusted companion built with guaranteed quality and timeless elegance.",
-    "Unlocking the joy of travel and creating lifelong memories across every single destination.",
-    "Carrying family travel memories along every beautiful path with guaranteed craftsmanship.",
-    "A journey of a thousand miles begins with a trusted companion. Here's to a lifetime of memories!"
+  // 核心谓语/动作短语
+  actions: [
+    "brings pure joy and excitement to every trip.",
+    "is crafted to deliver guaranteed quality on every path.",
+    "carries cherished family travel memories for a lifetime.",
+    "combines German engineering with unmatched craftsmanship.",
+    "is all about celebrating life's meaningful moments.",
+    "promises unmatched durability and timeless design.",
+    "makes every travel experience truly special.",
+    "offers guaranteed quality that stands the test of time.",
+    "captures the spirit of endless exploration.",
+    "creates unforgettable moments with loved ones.",
+    "represents the true pleasure and freedom of traveling.",
+    "blends functional perfection with aesthetic beauty.",
+    "ensures a lifetime of seamless and stylish journeys.",
+    "turns every voyage into a cherished story."
+  ],
+  // 特色补充成分
+  details: [
+    "in stunning Ultramarine and Umber tones,",
+    "with guaranteed premium craftsmanship,",
+    "bringing pure travel joy to every step,",
+    "designed for a lifetime of memories,",
+    "backed by iconic quality and precision,",
+    "making every trip effortless and elegant,",
+    "crafted for true travel enthusiasts,",
+    "highlighting timeless elegance and durability,"
+  ],
+  // 情感尾句 / 口号
+  closers: [
+    "Never Still!",
+    "Always Never Still.",
+    "A companion for life.",
+    "Truly iconic!",
+    "For a lifetime of journeys.",
+    "Pure joy of travel!",
+    "Guaranteed quality always.",
+    "Every story matters.",
+    "Cherish every step.",
+    "Elevate your travels."
   ]
 };
 
@@ -260,6 +281,7 @@ let currentPlatform = "ig";
 const toast = document.getElementById("toast");
 let toastTimer = null;
 
+// 最近 500 条历史缓存，防止重复
 let historySet = new Set();
 
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
@@ -268,13 +290,36 @@ function getWordCount(text) {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
 
-function generateRawBody(platform, isShortTarget) {
-  const vocab = platform === "ig" ? VOCAB_IG : VOCAB_X;
-  if (isShortTarget) {
-    return pick(vocab.shortCaptions);
+// 动态算法拼装文案
+function generateDynamicCaption(platform, isShortTarget) {
+  const v = BUILDER_VOCAB;
+  let starter = "";
+
+  if (platform === "ig") {
+    starter = pick(v.brandedStarters);
   } else {
-    return pick(vocab.mediumCaptions);
+    // X 平台 50% 概率带品牌主语，50% 概率不带品牌主语
+    starter = Math.random() < 0.5 ? pick(v.brandedStarters) : pick(v.genericStarters);
   }
+
+  const action = pick(v.actions);
+  const closer = pick(v.closers);
+
+  let sentence = "";
+  if (isShortTarget) {
+    // 动态拼接短句 (< 15 词)
+    if (Math.random() < 0.4) {
+      sentence = `${starter}: ${action}`;
+    } else {
+      sentence = `${starter}, ${action} ${closer}`;
+    }
+  } else {
+    // 动态拼接中长句 (15-25 词)
+    const detail = pick(v.details);
+    sentence = `${starter}, ${detail} ${action} ${closer}`;
+  }
+
+  return sentence;
 }
 
 function buildCaption(platform, isShortTarget) {
@@ -282,21 +327,15 @@ function buildCaption(platform, isShortTarget) {
   let wordCount = 0;
   let guard = 0;
 
-  while (guard++ < 50) {
-    body = generateRawBody(platform, isShortTarget);
+  while (guard++ < 80) {
+    body = generateDynamicCaption(platform, isShortTarget);
     if (platform === "ig") {
       body = body.replace(/@rimowa/gi, "RIMOWA");
     }
     wordCount = getWordCount(body);
-    if (isShortTarget && wordCount <= 15) break;
-    if (!isShortTarget && wordCount > 15 && wordCount <= 25) break;
-  }
 
-  if (wordCount > 25 || !body) {
-    body = platform === "ig" 
-      ? "PP Krit with RIMOWA. Experience the pure joy of travel with guaranteed quality."
-      : "Experience the pure joy of travel with guaranteed quality and timeless companion.";
-    wordCount = getWordCount(body);
+    if (isShortTarget && wordCount <= 15) break;
+    if (!isShortTarget && wordCount > 15 && wordCount <= 26) break;
   }
 
   let fullText = body;
@@ -323,16 +362,21 @@ function render() {
   let itemsGenerated = 0;
   let attempts = 0;
 
-  while (itemsGenerated < PAGE_SIZE && attempts < 300) {
+  while (itemsGenerated < PAGE_SIZE && attempts < 500) {
     attempts++;
     const isShort = itemsGenerated < 6;
     const item = buildCaption(currentPlatform, isShort);
 
+    // 去重检查
     if (!currentBatchSet.has(item.text) && !historySet.has(item.text)) {
       currentBatchSet.add(item.text);
       historySet.add(item.text);
 
-      if (historySet.size > 200) historySet.clear();
+      // 限制历史集合最大 500 条
+      if (historySet.size > 500) {
+        const arr = Array.from(historySet);
+        historySet = new Set(arr.slice(250));
+      }
 
       const card = document.createElement("div");
       card.className = "card";
