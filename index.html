@@ -3,206 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PP Krit × RIMOWA — Morandi Caption Generator</title>
+<title>PP Krit × RIMOWA — Caption Engine (Ultramarine & Umber Edition)</title>
 <style>
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: linear-gradient(135deg, #F9F8F6 0%, #EFECE6 100%);
+    /* Ultramarine & Umber 柔和高级渐变背景 */
+    background: linear-gradient(135deg, #F5F7FA 0%, #EAE6E1 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     padding: 24px 16px;
-    color: #4A4643;
+    color: #2D3142;
   }
-
   .container {
     width: 100%;
-    max-width: 580px;
+    max-width: 560px;
   }
   
+  /* Ultramarine（群青蓝）双色调渐变主标题 */
   h1 {
-    background: linear-gradient(135deg, #7A8B7B 0%, #5B6A5C 100%);
+    background: linear-gradient(135deg, #1B3B6F 0%, #2A4D8C 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    letter-spacing: 0.8px;
-    margin-bottom: 4px;
+    letter-spacing: 0.6px;
+    margin-bottom: 3px;
   }
-
+  /* Umber（暖大地棕）副标题 */
   .subtitle {
-    color: #938C82;
+    color: #7A5C43;
     text-align: center;
-    font-size: 12px;
-    margin-bottom: 18px;
+    font-size: 11.5px;
+    margin-bottom: 14px;
     font-weight: 500;
   }
   
   .tabs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
+    gap: 8px;
+    margin-bottom: 14px;
   }
-
   .tab {
-    padding: 12px 8px;
+    padding: 10px 6px;
     text-align: center;
-    border-radius: 12px;
-    background: #E5E1D8;
-    color: #726B60;
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: 10px;
+    background: #E8ECEF;
+    color: #4A5568;
+    font-size: 11.5px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.25s ease;
-    border: 1px solid #D8D2C5;
+    border: 1px solid #D8DFE5;
     display: flex;
     justify-content: center;
     align-items: center;
-    user-select: none;
+    white-space: nowrap;
   }
-
   .tab:hover {
-    background: #DDD7CB;
-    color: #524C43;
+    background: #DFE4E8;
+    color: #1B3B6F;
   }
-
+  /* 激活状态：Ultramarine 风格调性 */
   .tab.active {
-    background: #A28D8A;
+    background: #1B3B6F;
     color: #FFFFFF;
-    border-color: #8E7A77;
+    border-color: #12284C;
     font-weight: 600;
-    box-shadow: 0 3px 12px rgba(162, 141, 138, 0.25);
+    box-shadow: 0 3px 10px rgba(27, 59, 111, 0.25);
   }
 
+  /* 按钮：Umber 暖色大地棕主按钮 */
   .btn {
     display: block;
     width: 100%;
-    padding: 13px;
-    background: #7A8B7B;
+    padding: 11px;
+    background: #7A5C43;
     color: #FFFFFF;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.25s ease;
-    margin-bottom: 18px;
-    box-shadow: 0 4px 12px rgba(122, 139, 123, 0.25);
+    margin-bottom: 16px;
+    box-shadow: 0 3px 10px rgba(122, 92, 67, 0.25);
   }
-
   .btn:hover {
-    background: #6A7B6B;
-    box-shadow: 0 6px 16px rgba(122, 139, 123, 0.35);
+    background: #634833;
+    box-shadow: 0 5px 14px rgba(122, 92, 67, 0.35);
     transform: translateY(-1px);
   }
   
+  /* 卡片质感与边框样式 */
   .card {
     background: #FFFFFF;
-    border: 1px solid #EBE7DF;
-    border-radius: 14px;
-    padding: 15px 18px;
-    margin-bottom: 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 13px 15px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: all 0.25s ease;
     position: relative;
-    box-shadow: 0 2px 10px rgba(160, 150, 140, 0.06);
+    box-shadow: 0 2px 10px rgba(27, 59, 111, 0.04);
   }
-
   .card:hover {
-    background: #FCFCFA;
-    border-color: #C2B8A3;
-    box-shadow: 0 4px 16px rgba(162, 141, 138, 0.15);
+    background: #FAF9F7;
+    border-color: #C1B2A5;
+    box-shadow: 0 4px 16px rgba(122, 92, 67, 0.12);
     transform: translateY(-1px);
   }
-
   .card .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
-
   .card .index {
-    font-size: 11px;
-    color: #A39B8E;
+    font-size: 10px;
+    color: #8C9BAE;
     font-weight: 600;
   }
-
   .card-tags {
     display: flex;
-    gap: 6px;
-    align-items: center;
+    gap: 4px;
   }
-
   .card .tag {
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 6px;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 5px;
     font-weight: 600;
+    text-transform: uppercase;
     letter-spacing: 0.3px;
   }
-
-  .tag.platform-ig { background: #E8E3D9; color: #6D6457; }
-  .tag.platform-x { background: #DFE4E0; color: #506152; }
-  .tag.wc-short { background: #EAE6EE; color: #6F627A; }
-  .tag.wc-medium { background: #ECE4DF; color: #886F63; }
+  .tag.platform-ig { background: #E3E8F0; color: #1B3B6F; }
+  .tag.platform-x { background: #EFEBE7; color: #7A5C43; }
 
   .card .text {
-    font-size: 13.5px;
-    color: #4A4643;
-    line-height: 1.6;
+    font-size: 12.5px;
+    color: #2D3142;
+    line-height: 1.55;
     word-break: break-word;
     white-space: pre-line;
   }
-
+  /* Ultramarine 重点高亮关键词 */
   .card .text b {
-    color: #7A8B7B;
-    font-weight: 700;
+    color: #1B3B6F;
+    font-weight: 600;
   }
-
   .card .tip {
-    font-size: 10.5px;
-    color: #938C82;
+    font-size: 10px;
+    color: #7A5C43;
     opacity: 0;
     transition: opacity 0.2s;
     font-weight: 500;
   }
-
   .card.copied {
-    background: #F4F6F4;
-    border-color: #7A8B7B;
+    background: #F2F6FA;
+    border-color: #93B0D8;
   }
-
   .card.copied .tip {
     opacity: 1;
-    color: #5B6A5C;
+    color: #1B3B6F;
   }
 
+  /* 提示弹窗：Ultramarine 群青色背景 */
   .toast {
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: #5B6A5C;
+    background: #1B3B6F;
     color: #FFFFFF;
-    padding: 10px 24px;
+    padding: 8px 20px;
     border-radius: 20px;
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 600;
     opacity: 0;
     pointer-events: none;
     transition: all 0.25s ease;
-    box-shadow: 0 4px 16px rgba(91, 106, 92, 0.3);
+    box-shadow: 0 4px 16px rgba(27, 59, 111, 0.3);
   }
-
   .toast.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -210,259 +198,4 @@
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>✨ PP Krit × RIMOWA ✨</h1>
-  <p class="subtitle">Lifetime Memories & Trusted Companion</p>
-  
-  <div class="tabs">
-    <div class="tab active" id="tab-ig" data-mode="ig">IG / TikTok</div>
-    <div class="tab" id="tab-x" data-mode="x">X (Twitter)</div>
-  </div>
-
-  <button class="btn" id="refreshBtn">🎲 Generate New Batch (8 Unique Captions)</button>
-  <div id="list"></div>
-</div>
-
-<div class="toast" id="toast">Copied to Clipboard ✓</div>
-
-<script>
-const X_HASHTAGS = "\n\n#PPKritt\n#RIMOWA @rimowa\n#RIMOWAEssential #RIMOWAColours";
-
-const VOCAB = {
-  // Opening phrases strictly avoiding "attend the event"
-  startersShort: [
-    "PP Krit with RIMOWA,",
-    "PP Krit on his journey with RIMOWA,",
-    "PP Krit sharing travel moments with RIMOWA,",
-    "PP Krit and RIMOWA,",
-    "PP Krit discovering new horizons with RIMOWA,",
-    "PP Krit embracing the spirit of travel with RIMOWA,"
-  ],
-
-  phrasesShort: [
-    "every RIMOWA suitcase tells a story.",
-    "a trusted companion for a lifetime of memories.",
-    "living the Never Still spirit on every path.",
-    "cherishing priceless family trip memories.",
-    "luggage is a trusted friend for a lifetime of lives.",
-    "carrying beautiful memories with RIMOWA.",
-    "finding your trusted travel companion for life."
-  ],
-
-  // Standalone Short Captions (Strictly ≤ 15 words)
-  presetShort: [
-    "PP Krit with RIMOWA! Every suitcase tells a story. Never Still.",
-    "PP Krit and RIMOWA: a trusted companion for a lifetime of memories.",
-    "PP Krit sharing moments with RIMOWA. Cherishing every journey with family.",
-    "PP Krit on his path with RIMOWA. Finding your trusted travel companion.",
-    "A special moment with PP Krit and RIMOWA. For a lifetime of lives!",
-    "PP Krit exploring travel stories with RIMOWA. Always Never Still.",
-    "Beautiful travels ahead with PP Krit and RIMOWA. A lifelong companion.",
-    "PP Krit with RIMOWA! Carrying precious family memories across every path.",
-    "PP Krit x RIMOWA: Every suitcase holds a lifetime of precious memories.",
-    "PP Krit on his journey with RIMOWA! Always Never Still."
-  ],
-
-  // Standalone Medium Captions (Strictly 16 - 24 words)
-  presetMedium: [
-    "PP Krit sharing beautiful moments with RIMOWA! Traveling is all about cherishing lifetime memories with family. Never Still!",
-    "PP Krit on his travel journey with RIMOWA. A suitcase is a trusted companion that accompanies every meaningful path.",
-    "PP Krit and RIMOWA celebrating lifelong travels together. Every RIMOWA suitcase tells a story for years to come.",
-    "Special moments with PP Krit and RIMOWA! Carrying family memories and beautiful travel stories along the way. For a lifetime of lives.",
-    "PP Krit with RIMOWA! Luggage isn't just a tool, but a trusted companion for a lifetime of memories."
-  ]
-};
-
-const PAGE_SIZE = 8;
-const SEEN_KEY = "pp_rimowa_no_attend_seen";
-const SEEN_CAP = 1000;
-
-function loadSeen() {
-  try {
-    const raw = sessionStorage.getItem(SEEN_KEY);
-    return raw ? new Set(JSON.parse(raw)) : new Set();
-  } catch (e) { return new Set(); }
-}
-
-function saveSeen(set) {
-  try {
-    const arr = Array.from(set);
-    sessionStorage.setItem(SEEN_KEY, JSON.stringify(arr.slice(-SEEN_CAP)));
-  } catch (e) {}
-}
-
-const list = document.getElementById("list");
-const toast = document.getElementById("toast");
-let toastTimer = null;
-let currentPlatform = "ig";
-
-const pick = arr => arr[(Math.random() * arr.length) | 0];
-
-function countWords(text) {
-  return text.trim().split(/\s+/).filter(Boolean).length;
-}
-
-function buildCaptionBody(isShortTarget) {
-  if (isShortTarget) {
-    if (Math.random() < 0.6) {
-      return pick(VOCAB.presetShort);
-    }
-    return `${pick(VOCAB.startersShort)} ${pick(VOCAB.phrasesShort)}`;
-  } else {
-    if (Math.random() < 0.5) {
-      return pick(VOCAB.presetMedium);
-    }
-    return `${pick(VOCAB.startersShort)} ${pick(VOCAB.phrasesShort)} ${pick(VOCAB.phrasesShort)}`;
-  }
-}
-
-function generateValidCaption(platform, isShortTarget) {
-  let body = "";
-  let words = 0;
-  let attempts = 0;
-
-  while (attempts++ < 60) {
-    body = buildCaptionBody(isShortTarget);
-
-    // Rule 2: IG/TT tab MUST NOT contain @rimowa
-    if (platform === "ig") {
-      body = body.replace(/@rimowa/gi, "RIMOWA");
-    }
-
-    words = countWords(body);
-
-    // Strict rule check: 80% <=15 words, 100% <25 words
-    if (isShortTarget && words <= 15) {
-      break;
-    } else if (!isShortTarget && words > 15 && words < 25) {
-      break;
-    }
-  }
-
-  // Safety fallback
-  if (words >= 25) {
-    body = "PP Krit on his journey with RIMOWA. Every path carries a lifetime of memories.";
-    words = countWords(body);
-  }
-
-  // Ensure core keywords exist
-  if (!body.includes("PP Krit")) body = `PP Krit with RIMOWA. ${body}`;
-  if (!body.includes("RIMOWA")) body = `${body} RIMOWA.`;
-
-  let fullText = body;
-  if (platform === "x") {
-    fullText = body + X_HASHTAGS;
-  }
-
-  return {
-    text: fullText,
-    wordCount: countWords(body)
-  };
-}
-
-function getBatch() {
-  const results = [];
-  const localSeen = new Set();
-  let globalSeen = loadSeen();
-  let misses = 0;
-
-  // Guarantee exact distribution: 6 short (<=15 words), 2 medium (16-24 words) in batch of 8
-  const shortFlags = [true, true, true, true, true, true, false, false].sort(() => Math.random() - 0.5);
-
-  for (let i = 0; i < PAGE_SIZE; i++) {
-    const isShortTarget = shortFlags[i];
-    let item = generateValidCaption(currentPlatform, isShortTarget);
-
-    while (localSeen.has(item.text) || globalSeen.has(item.text)) {
-      misses++;
-      if (misses > 400) {
-        globalSeen.clear();
-        misses = 0;
-      }
-      item = generateValidCaption(currentPlatform, isShortTarget);
-    }
-
-    localSeen.add(item.text);
-    globalSeen.add(item.text);
-    results.push(item);
-  }
-
-  saveSeen(globalSeen);
-  return results;
-}
-
-function render() {
-  list.innerHTML = "";
-  const items = getBatch();
-
-  items.forEach((item, i) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    
-    const highlighted = item.text
-      .replace(/PP Krit/g, "<b>PP Krit</b>")
-      .replace(/RIMOWA/g, "<b>RIMOWA</b>")
-      .replace(/#PPKritt/g, "<b>#PPKritt</b>")
-      .replace(/#RIMOWA/g, "<b>#RIMOWA</b>")
-      .replace(/@rimowa/g, "<b>@rimowa</b>");
-
-    const platformTag = currentPlatform === "ig" ? "IG/TT (No @)" : "X (Twitter)";
-    const platformClass = currentPlatform === "ig" ? "platform-ig" : "platform-x";
-    const wcTagClass = item.wordCount <= 15 ? "wc-short" : "wc-medium";
-
-    card.innerHTML = `
-      <div class="card-header">
-        <span class="index">#${i + 1} • Words: ${item.wordCount}</span>
-        <div class="card-tags">
-          <span class="tag ${wcTagClass}">${item.wordCount <= 15 ? "≤15 Words" : "<25 Words"}</span>
-          <span class="tag ${platformClass}">${platformTag}</span>
-        </div>
-      </div>
-      <div class="text">${highlighted}</div>
-      <div style="text-align: right; margin-top: 6px;"><span class="tip">Tap to copy</span></div>
-    `;
-    
-    card.addEventListener("click", () => copyText(item.text, card));
-    list.appendChild(card);
-  });
-}
-
-async function copyText(text, card) {
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch (e) {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.style.position = "fixed";
-    ta.style.opacity = "0";
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-  }
-  card.classList.add("copied");
-  card.querySelector(".tip").textContent = "Copied ✓";
-  toast.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    toast.classList.remove("show");
-    card.classList.remove("copied");
-    card.querySelector(".tip").textContent = "Tap to copy";
-  }, 1500);
-}
-
-document.getElementById("refreshBtn").addEventListener("click", render);
-
-document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-    if (currentPlatform === tab.dataset.mode) return;
-    currentPlatform = tab.dataset.mode;
-    document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
-    render();
-  });
-});
-
-render();
-</script>
-</body>
-</html>
+<div
